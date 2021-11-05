@@ -3,10 +3,9 @@ package org.base.advent.k2015
 import org.base.advent.PuzzleReader
 import org.base.advent.util.Point
 import org.base.advent.util.Point.Companion.ORIGIN
-import org.base.advent.util.PointMap
 
 /**
- * <a href="https://adventofcode.com/2015/day/3">Day 1</a>
+ * <a href="https://adventofcode.com/2015/day/3">Day 3</a>
  */
 class Day03 : PuzzleReader {
 
