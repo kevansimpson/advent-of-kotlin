@@ -1,5 +1,6 @@
 package org.base.advent
 
+import org.apache.commons.lang3.BooleanUtils
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -18,4 +19,11 @@ interface PuzzleReader : PuzzleSolver {
     fun readLines(input: String): List<String> = Files.readAllLines(root.resolve(input))
 
     fun readSingleLine(input: String): String = Files.readString(root.resolve(input))
+}
+
+interface TimeSaver {
+    val fullSolve: Boolean
+        get() = BooleanUtils.toBoolean(System.getProperty("full"))
+
+    fun <T> fullOrFast(full: T, fast: T): T = if (fullSolve) full else fast
 }
