@@ -15,7 +15,7 @@ data class Duration(val time: Long, val unit: TimeUnit = TimeUnit.NANOSECONDS) {
     override fun hashCode(): Int = readableTime(this).hashCode() * 13
 
     /** Companion object with helper methods for readable duration. */
-    companion object DurationHelper {
+    companion object {
         private val timeUnits = mapOf(
                 Pair(TimeUnit.MICROSECONDS, "micros"), Pair(TimeUnit.MILLISECONDS, "millis"), Pair(TimeUnit.NANOSECONDS, "nanos"))
 
