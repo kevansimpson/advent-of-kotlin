@@ -33,6 +33,11 @@ class Solutions2015Test {
         testSolutions(Day05(), 258, 53)
     }
 
+    @Test
+    fun day06() {
+        testSolutions(Day06(), 543903, 14687245)
+    }
+
     companion object {
         @BeforeAll @JvmStatic
         fun header() {
