@@ -19,7 +19,8 @@ class Day07 : PuzzleReader {
 
     private val circuitMap by lazy {
         input.map { REGEX.matchEntire(it) }.associate {
-            Pair(it!!.groups[2]!!.value, it.groups[1]!!.value.split("\\s".toRegex()))
+            val (values, key) = it!!.destructured
+            Pair(key, values.split("\\s".toRegex()))
         }
     }
 

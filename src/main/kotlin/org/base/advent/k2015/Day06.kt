@@ -39,9 +39,8 @@ class Day06 : PuzzleReader {
     private val lightGrid by lazy {
         input.map { REGEX.matchEntire(it) }
                 .map {
-                    LightCmd(it?.groups?.get(1)?.value ?: "",
-                            toPoint(it?.groups?.get(2)?.value ?: "-1,-1"),
-                            toPoint(it?.groups?.get(3)?.value ?: "-1,-1"))
+                    val (cmd, pt1, pt2) = it!!.destructured
+                    LightCmd(cmd, toPoint(pt1), toPoint(pt2))
                 }
     }
 
