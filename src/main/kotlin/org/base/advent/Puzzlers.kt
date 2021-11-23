@@ -25,5 +25,10 @@ interface TimeSaver {
     val fullSolve: Boolean
         get() = BooleanUtils.toBoolean(System.getProperty("full"))
 
+    fun debug(msg: String) {
+        if (fullSolve)
+            println(msg)
+    }
+
     fun <T> fullOrFast(full: T, fast: T): T = if (fullSolve) full else fast
 }
