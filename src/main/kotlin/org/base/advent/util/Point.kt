@@ -1,20 +1,38 @@
 package org.base.advent.util
 
+import kotlin.math.abs
+
 data class Point(val x: Long, val y: Long) {
+
+    fun manhattanDistance(point: Point = ORIGIN) = Companion.manhattanDistance(this, point)
 
     fun move(dx: Long, dy: Long): Point = Point(x + dx, y + dy)
 
     fun move(dir: Char, distance: Long = 1): Point = move(dir.toString(), distance)
 
+    fun move(dir: Dir, distance: Long = 1): Point = move(dir.name, distance)
+
     fun move(dir: String, distance: Long = 1): Point = when (dir) {
-        ">", "R", "E" -> move(distance, 0)
-        "<", "L", "W" -> move(-distance, 0)
-        "^", "U", "N" -> move(0, distance)
-        "v", "D", "S" -> move(0, -distance)
+        ">", "R", "E", Dir.East.name    -> move(distance, 0)
+        "<", "L", "W", Dir.West.name    -> move(-distance, 0)
+        "^", "U", "N", Dir.North.name   -> move(0, distance)
+        "v", "D", "S", Dir.South.name   -> move(0, -distance)
         else -> this
     }
 
     companion object {
         val ORIGIN = Point(0, 0)
+
+        fun manhattanDistance(a: Point, b: Point): Long = abs(b.x - a.x) + abs(b.y - a.y)
+    }
+}
+
+enum class Dir {
+    North, East, South, West;
+
+    fun turn(dir: String): Dir = when (dir) {
+        ">", "R", "E" -> values()[(this.ordinal + 1) % 4]
+        "<", "L", "W" -> values()[(this.ordinal + 3) % 4]
+        else -> this
     }
 }
