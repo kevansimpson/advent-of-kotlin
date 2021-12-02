@@ -27,12 +27,12 @@ class Solutions2016Test {
     fun day04() {
         testSolutions(Day04(), 137896, 501)
     }
-/*
+
     @Test
     fun day05() {
-        testSolutions(Day05(), 258, 53)
+        testSolutions(Day05(), "1a3099aa", "694190cd")
     }
-
+/*
     @Test
     fun day06() {
         testSolutions(Day06(), 543903, 14687245)
