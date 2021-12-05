@@ -8,5 +8,10 @@ object Extensions {
     fun ByteArray.toHex(): String =
             joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }}
 
+    infix fun Long.toward(to: Long): LongProgression {
+        val step = if (this > to) -1L else 1L
+        return LongProgression.fromClosedRange(this, to, step)
+    }
+
     fun String.md5ToHex() =
             MessageDigest.getInstance("MD5").digest(this.toByteArray()).toHex()
