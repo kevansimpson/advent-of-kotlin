@@ -17,17 +17,18 @@ class Solutions2021Test {
     fun day02() {
         testSolutions(Day02(), 2039912L, 1942068080L)
     }
-/*
+
     @Test
     fun day03() {
-        testSolutions(Day03(), 982, 1826)
+//        testSolutions(Day03(), 198L, 230L)
+        testSolutions(Day03(), 3277364L, 5770602L) // 5770602 is too high
     }
 
     @Test
     fun day04() {
-        testSolutions(Day04(), 137896, 501)
+        testSolutions(Day04(), 69579, 14877)
     }
-
+/*
     @Test
     fun day05() {
         testSolutions(Day05(), 258, 53)
