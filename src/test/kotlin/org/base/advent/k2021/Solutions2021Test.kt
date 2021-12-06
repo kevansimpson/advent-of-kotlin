@@ -20,8 +20,7 @@ class Solutions2021Test {
 
     @Test
     fun day03() {
-//        testSolutions(Day03(), 198L, 230L)
-        testSolutions(Day03(), 3277364L, 5770602L) // 5770602 is too high
+        testSolutions(Day03(), 3277364L, 5736383L)
     }
 
     @Test

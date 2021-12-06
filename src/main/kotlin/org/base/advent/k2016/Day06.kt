@@ -1,7 +1,8 @@
 package org.base.advent.k2016
 
-import org.apache.commons.lang3.StringUtils
+
 import org.base.advent.PuzzleReader
+import org.base.advent.util.Text
 import kotlin.collections.Map.Entry
 
 /**
@@ -15,17 +16,8 @@ class Day06 : PuzzleReader {
 
     override fun solve2(): Any = extract(columnCountsAscending)
 
-    private val columns by lazy {
-        input.fold(Array(8) { "" }) { list, row ->
-            (0..7).forEach { list[it] = list[it] + row[it] }
-            list
-        }
-    }
-
-    private val columnCounts by lazy {
-        columns.map { it.toCharArray().map { ch -> ch.toString() to StringUtils.countMatches(it, ch) }
-                .distinct().toMap() }
-    }
+    private val columns by lazy { Text.columns(input) }
+    private val columnCounts by lazy { Text.columnCounts(columns) }
 
     private val columnCountsDescending by lazy {
         columnCounts.map { it.entries.sortedByDescending { kv -> kv.value } }

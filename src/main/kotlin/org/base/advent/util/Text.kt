@@ -21,4 +21,15 @@ object Text {
             else
                 it
         }.joinToString("").replace("-", " ")
+
+    fun columns(rows: List<String>): List<String> = if (rows.isEmpty()) listOf() else
+            rows.fold(Array(rows[0].length) { "" }) { list, row ->
+                rows[0].indices.forEach { list[it] = list[it] + row[it] }
+                list
+            }.toList()
+
+    fun columnCounts(columns: List<String>): List<Map<String, Int>> =
+            columns.map {
+                it.toCharArray().map { ch -> ch.toString() to StringUtils.countMatches(it, ch) }.distinct().toMap()
+            }
 }
