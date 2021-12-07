@@ -8,6 +8,8 @@ import kotlin.collections.ArrayList
 
 object Permutations {
 
+    fun nthTriangleNumber(n: Int) = (n * (n + 1)) / 2
+
     fun permutations(str: String): Stream<String> =
             if (str.isBlank()) Stream.of("")
             else
