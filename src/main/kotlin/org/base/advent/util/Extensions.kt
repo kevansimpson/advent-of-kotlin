@@ -20,3 +20,5 @@ object Extensions {
 
     fun String.md5ToHex() =
             MessageDigest.getInstance("MD5").digest(this.toByteArray()).toHex()
+
+    fun String.sort() = this.toCharArray().sorted().joinToString("")
