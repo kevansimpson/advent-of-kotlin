@@ -46,5 +46,5 @@ class Day09 : PuzzleReader {
 
     private fun getHeight(point: Point): Int = lavaTubes[point.y.toInt()][point.x.toInt()]
 
-    private fun inGrid(point: Point): Boolean = (point.x in 0L until caveWidth) && (point.y in 0L until caveHeight)
+    private fun inGrid(point: Point): Boolean = Point.inGrid(point, caveWidth, caveHeight)
 }

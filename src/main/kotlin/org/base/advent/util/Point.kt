@@ -6,7 +6,14 @@ data class Point(val x: Long, val y: Long) {
 
     constructor (ix: Int, iy:Int) : this(ix.toLong(), iy.toLong())
 
+    val ix by lazy { x.toInt() }
+    val iy by lazy { y.toInt() }
+
+    override fun toString() = "$x,$y"
+
     fun manhattanDistance(point: Point = ORIGIN) = Companion.manhattanDistance(this, point)
+
+    fun move(dx: Int, dy: Int): Point = Point(x + dx, y + dy)
 
     fun move(dx: Long, dy: Long): Point = Point(x + dx, y + dy)
 
@@ -29,6 +36,9 @@ data class Point(val x: Long, val y: Long) {
 
     companion object {
         val ORIGIN = Point(0, 0)
+
+        fun inGrid(pt: Point, width: Int, height: Int? = null): Boolean =
+                (pt.x in 0 until width) && (pt.y in 0 until (height ?: width))
 
         fun manhattanDistance(a: Point, b: Point): Long = abs(b.x - a.x) + abs(b.y - a.y)
     }

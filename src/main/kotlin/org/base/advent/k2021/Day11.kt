@@ -3,6 +3,7 @@ package org.base.advent.k2021
 import org.base.advent.PuzzleReader
 import org.base.advent.TimeSaver
 import org.base.advent.util.Point
+import org.base.advent.util.Point.Companion.inGrid
 import org.base.advent.util.toward
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -81,6 +82,4 @@ class Day11 : PuzzleReader, TimeSaver {
         }
         println("-----------")
     }
-
-    private fun inGrid(pt: Point, size: Int = 10): Boolean = (pt.x in 0 until size) && (pt.y in 0 until size)
 }
