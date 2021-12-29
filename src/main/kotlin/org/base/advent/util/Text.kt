@@ -1,9 +1,19 @@
 package org.base.advent.util
 
 import org.apache.commons.lang3.StringUtils
+import java.util.*
 
 object Text {
     private const val alphabet = "abcdefghijklmnopqrstuvwxyz"
+
+    val hex2bits by lazy {
+        (0..15).associate {
+            (if (it >= 10) alphabet[it - 10].toString().capitalize() else it.toString()) to
+                    StringUtils.leftPad(it.toByte().toString(2), 4, "0")
+        }
+    }
+
+    val bits2hex by lazy { hex2bits.entries.associate { it.value to it.key } }
 
     fun nextHash(input: String, prefix: String, start: Long = 1L): Pair<String, Long> {
         for (index in start..Long.MAX_VALUE) {
@@ -32,4 +42,8 @@ object Text {
             columns.map {
                 it.toCharArray().map { ch -> ch.toString() to StringUtils.countMatches(it, ch) }.distinct().toMap()
             }
+
+    private fun String.capitalize() = replaceFirstChar {
+        if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+    }
 }
