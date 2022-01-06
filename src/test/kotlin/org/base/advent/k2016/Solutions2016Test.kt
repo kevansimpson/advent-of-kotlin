@@ -42,12 +42,12 @@ class Solutions2016Test {
     fun day07() {
         testSolutions(Day07(), 118, 260)
     }
-/*
+
     @Test
     fun day08() {
-        testSolutions(Day08(), 1333, 2046)
+        testSolutions(Day08(), 116, "UPOJFLBCEZ")
     }
-
+/*
     @Test
     fun day09() {
         testSolutions(Day09(), 207, 804)
