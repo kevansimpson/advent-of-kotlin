@@ -19,6 +19,8 @@ interface PuzzleReader : PuzzleSolver {
     fun readLines(input: String): List<String> = Files.readAllLines(root.resolve(input))
 
     fun readSingleLine(input: String): String = Files.readString(root.resolve(input))
+
+    fun String.csvToInt() = this.split(",").map { it.toInt() }
 }
 
 interface TimeSaver {
