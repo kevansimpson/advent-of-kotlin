@@ -19,8 +19,8 @@ class Day02 : PuzzleReader {
                 this[1] = noun
                 this[2] = verb
             })) {
-                this.call()
-                this.result[0]
+                run()
+                result.first()
             }
 
     private fun targetOutput(target: Int = 19690720, codes: List<Int> = input): Int {
