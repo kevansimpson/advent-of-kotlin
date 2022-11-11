@@ -21,12 +21,12 @@ class Solutions2019Test {
     fun day03() {
         testSolutions(Day03(), 352L, 43848L)
     }
-/*
+
     @Test
     fun day04() {
-        testSolutions(Day04(), 254575L, 1038736L)
+        testSolutions(Day04(), 1178, 763)
     }
-
+/*
     @Test
     fun day05() {
         testSolutions(Day05(), 258, 53)
