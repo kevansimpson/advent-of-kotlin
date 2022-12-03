@@ -7,8 +7,7 @@ import org.base.advent.PuzzleReader
  */
 class Day02 : PuzzleReader {
 
-    private val input = //listOf("A Y", "B X", "C Z")
-            readLines("2022/input02.txt")
+    private val input = readLines("2022/input02.txt")
 
     private val pairs by lazy { input.map { SCORES[it] } }
 

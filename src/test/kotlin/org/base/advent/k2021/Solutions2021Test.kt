@@ -131,12 +131,12 @@ class Solutions2021Test {
     companion object {
         @BeforeAll @JvmStatic
         fun header() {
-            banner(2016)
+            banner(2021)
         }
 
         @AfterAll @JvmStatic
         fun footer() {
-            banner(2016)
+            banner(2021)
         }
     }
 }
