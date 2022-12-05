@@ -3,7 +3,7 @@ package org.base.advent.k2021
 import org.base.advent.PuzzleReader
 import org.base.advent.TimeSaver
 import org.base.advent.util.Permutations.permutations
-import org.base.advent.util.sort
+import org.base.advent.util.Extensions.sort
 import java.util.stream.Collectors
 
 /**

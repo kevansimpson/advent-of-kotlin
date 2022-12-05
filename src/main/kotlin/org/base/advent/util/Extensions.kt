@@ -1,12 +1,11 @@
 package org.base.advent.util
 
-import org.base.advent.util.Extensions.toHex
 import java.security.MessageDigest
 
 object Extensions {
 
     fun ByteArray.toHex(): String =
-            joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }}
+            joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }
 
     infix fun Int.toward(to: Int): IntProgression {
         val step = if (this > to) -1 else 1
@@ -22,3 +21,7 @@ object Extensions {
             MessageDigest.getInstance("MD5").digest(this.toByteArray()).toHex()
 
     fun String.sort() = this.toCharArray().sorted().joinToString("")
+
+    private val NUMS = "([-\\d]+)".toRegex()
+    fun String.extractInt(): List<Int> = NUMS.findAll(this).map { it.value.toInt() }.toList()
+}

@@ -2,6 +2,7 @@ package org.base.advent.k2015
 
 import org.apache.commons.lang3.StringUtils
 import org.base.advent.PuzzleReader
+import org.base.advent.util.Extensions.extractInt
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -16,8 +17,7 @@ class Day12 : PuzzleReader {
 
     override fun solve2(): Any = sumJson(JSONObject(input))
 
-    private fun sumNumbers(str: String) =
-            NUMS.findAll(str).map { it.value.toInt() }.sum()
+    private fun sumNumbers(str: String) = str.extractInt().sum()
 
     private fun sumJson(obj: JSONObject): Int =
             obj.keySet().fold(0) { total, key ->
@@ -37,8 +37,4 @@ class Day12 : PuzzleReader {
                 is String -> 0
                 else -> elem.toString().toInt()
             })}
-
-    companion object {
-        private val NUMS = "([-\\d]+)".toRegex()
-    }
 }

@@ -4,7 +4,7 @@ import org.base.advent.PuzzleReader
 import org.base.advent.TimeSaver
 import org.base.advent.util.Point
 import org.base.advent.util.Point.Companion.inGrid
-import org.base.advent.util.toward
+import org.base.advent.util.Extensions.toward
 import java.util.concurrent.atomic.AtomicInteger
 
 /**

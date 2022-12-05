@@ -1,6 +1,7 @@
 package org.base.advent.util
 
 import org.apache.commons.lang3.StringUtils
+import org.base.advent.util.Extensions.md5ToHex
 import java.util.*
 
 object Text {

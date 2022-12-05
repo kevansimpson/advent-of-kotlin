@@ -2,7 +2,7 @@ package org.base.advent.k2021
 
 import org.base.advent.PuzzleReader
 import org.base.advent.util.Point
-import org.base.advent.util.toward
+import org.base.advent.util.Extensions.toward
 
 /**
  * <a href="https://adventofcode.com/2021/day/5">Day 5</a>
