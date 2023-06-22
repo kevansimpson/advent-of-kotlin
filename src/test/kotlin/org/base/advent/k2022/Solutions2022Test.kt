@@ -37,22 +37,23 @@ class Solutions2022Test {
     fun day06() {
         testSolutions(Day06(), 1275, 3605)
     }
-/*
+
     @Test
     fun day07() {
-        testSolutions(Day07(), 335330, 92439766)
+        testSolutions(Day07(), 1334506, 7421137)
     }
 
     @Test
     fun day08() {
-        testSolutions(Day08(), 272, 1007675)
+        testSolutions(Day08(), 1779, 172224)
     }
 
     @Test
     fun day09() {
-        testSolutions(Day09(), 508, 1564640)
+//        testSolutions(Day09(), 13, 1139)
+//        testSolutions(Day09(), 5981, 5981)
     }
-
+/*
     @Test
     fun day10() {
         testSolutions(Day10(), 436497, 2377613374L)

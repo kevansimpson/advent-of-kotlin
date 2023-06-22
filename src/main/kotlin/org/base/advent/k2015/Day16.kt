@@ -47,10 +47,10 @@ class Day16 : PuzzleReader {
     }
 
     private fun gte0(key: String, tickerTape: Sue, attr: Sue): Boolean =
-            attr.containsKey(key) && ObjectUtils.compare(tickerTape[key] as Int, attr[key]) >= 0
+        attr.containsKey(key) && ObjectUtils.compare(tickerTape[key]!!, attr[key]!!) >= 0
 
     private fun lte0(key: String, tickerTape: Sue, attr: Sue): Boolean =
-            attr.containsKey(key) && ObjectUtils.compare(tickerTape[key] as Int, attr[key]) <= 0
+        attr.containsKey(key) && ObjectUtils.compare(tickerTape[key]!!, attr[key]!!) <= 0
 
     private fun reverseTicker(tickerTape: Sue, attr: Sue): Boolean {
         run santa@{

@@ -31,6 +31,9 @@ data class Point(val x: Long, val y: Long) {
 
     fun neighbors(): List<Point> = listOf(move('U'), move('R'), move('D'), move('L'))
 
+    fun corners(): List<Point> = listOf(
+            move(1, 1), move(1, -1), move(-1, -1), move(-1, 1))
+
     fun surrounding(): List<Point> = listOf(move(0, 1), move(1, 1), move(1, 0),
             move(1, -1), move(0, -1), move(-1, -1), move(-1, 0), move(-1, 1))
 
