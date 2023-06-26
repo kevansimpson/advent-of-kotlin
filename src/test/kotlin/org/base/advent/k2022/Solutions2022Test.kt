@@ -50,8 +50,7 @@ class Solutions2022Test {
 
     @Test
     fun day09() {
-//        testSolutions(Day09(), 13, 1139)
-//        testSolutions(Day09(), 5981, 5981)
+        testSolutions(Day09(), 5981, 2352)
     }
 /*
     @Test
