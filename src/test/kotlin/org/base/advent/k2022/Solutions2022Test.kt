@@ -2,12 +2,9 @@ package org.base.advent.k2022
 
 import org.base.advent.PuzzleTester.banner
 import org.base.advent.PuzzleTester.testSolutions
-import org.base.advent.util.Point
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class Solutions2022Test {
 
@@ -71,12 +68,12 @@ class Solutions2022Test {
         testSolutions(Day12(), 383L, 377L)
     }
 
-    /*
     @Test
     fun day13() {
-        testSolutions(Day13(), 731, "ZKAUCFUC")
+        testSolutions(Day13(), 5555, 22852)
     }
 
+    /*
     @Test
     fun day14() {
         testSolutions(Day14(), 3247L, 4110568157153L)
