@@ -23,12 +23,16 @@ class Advent2022UnitTest {
         }
     }
 
-    /*
     @Test
     fun day14() {
-        testSolutions(Day14(), 3247L, 4110568157153L)
+        with (Day14(listOf(
+            "498,4 -> 498,6 -> 496,6",
+            "503,4 -> 502,4 -> 502,9 -> 494,9"))) {
+            testSolutions(this, 24, 93)
+        }
     }
 
+    /*
     @Test
     fun day15() {
         testSolutions(Day15(), 553, 2858)

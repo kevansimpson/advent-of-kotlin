@@ -61,6 +61,9 @@ data class Point(val x: Long, val y: Long) {
     companion object {
         val ORIGIN = Point(0, 0)
 
+        fun fromString(xy: String): Point =
+            with (xy.split(",").map { it.toInt() }) { Point(this[0], this[1]) }
+
         fun inGrid(pt: Point, width: Int, height: Int? = null): Boolean =
                 (pt.x in 0 until width) && (pt.y in 0 until (height ?: width))
 
