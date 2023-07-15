@@ -4,7 +4,7 @@ import java.security.MessageDigest
 
 object Extensions {
 
-    fun ByteArray.toHex(): String =
+    private fun ByteArray.toHex(): String =
             joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }
 
     infix fun Int.toward(to: Int): IntProgression {
@@ -16,6 +16,22 @@ object Extensions {
         val step = if (this > to) -1L else 1L
         return LongProgression.fromClosedRange(this, to, step)
     }
+
+    fun LongRange.merge(that: LongRange): Pair<LongRange, LongRange?> =
+        if (this.first <= that.first)
+            when {
+                this.last >= that.last -> this to null // this contains that
+                this.last < that.first -> this to that // no overlap
+                else -> this.first..that.last to null // this + that
+            }
+        else
+            when {
+                this.last <= that.last -> that to null // that contains this
+                this.first > that.last -> that to this // no overlap
+                else -> that.first..this.last to null // that + this
+            }
+
+    fun LongRange.size(): Long = this.last - this.first + 1L
 
     fun String.md5ToHex() =
             MessageDigest.getInstance("MD5").digest(this.toByteArray()).toHex()
