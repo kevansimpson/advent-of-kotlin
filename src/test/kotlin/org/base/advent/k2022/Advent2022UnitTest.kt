@@ -32,12 +32,12 @@ class Advent2022UnitTest {
         }
     }
 
-    /*
     @Test
     fun day15() {
-        testSolutions(Day15(), 553, 2858)
+        testSolutions(Day15("b", 10L), 26L, 1138)
     }
 
+    /*
     @Test
     fun day16() {
         testSolutions(Day16(), 927, 1725277876501L)
