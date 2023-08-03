@@ -35,4 +35,6 @@ interface TimeSaver {
     }
 
     fun <T> fullOrFast(full: T, fast: T): T = if (fullSolve) full else fast
+
+    fun <T> fastOrFull(fast: T, full: () -> T): T = if (fullSolve) full() else fast
 }

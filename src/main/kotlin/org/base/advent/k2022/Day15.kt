@@ -11,7 +11,9 @@ import kotlin.math.abs
 /**
  * <a href="https://adventofcode.com/2022/day/15">Day 15</a>
  */
-class Day15(qualifier: String = "", private val testRow: Long = 2000000L) : PuzzleReader, TimeSaver {
+class Day15(qualifier: String = "",
+            private val testRow: Long = 2000000L,
+            private val fastStart: Long = 3349000L) : PuzzleReader, TimeSaver {
 
     private val input = readLines("2022/input15$qualifier.txt")
     private val sensors = input
@@ -23,7 +25,7 @@ class Day15(qualifier: String = "", private val testRow: Long = 2000000L) : Puzz
 
     override fun solve2(): Any =
         try {
-            (fullOrFast(0L, 3349000L)..4000000L).forEach { overlap(sensors, it) }
+            (fullOrFast(0L, fastStart)..4000000L).forEach { overlap(sensors, it) }
         }
         catch (answer: Answer) {
             answer.result
