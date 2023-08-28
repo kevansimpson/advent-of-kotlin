@@ -26,8 +26,11 @@ interface PuzzleReader : PuzzleSolver {
 }
 
 interface TimeSaver {
-    val fullSolve: Boolean
+    var fullSolve: Boolean
         get() = BooleanUtils.toBoolean(System.getProperty("full"))
+        set(value) {
+            System.setProperty("full", value.toString())
+        }
 
     fun debug(msg: String) {
         if (fullSolve)

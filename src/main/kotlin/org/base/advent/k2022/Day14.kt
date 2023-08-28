@@ -93,8 +93,8 @@ data class Cave(val rocks: MutableMap<Point, String>) {
     private val leftRock = rocks.keys.minOf { it.x }
     private val rightRock = rocks.keys.maxOf { it.x }
     private val width = (rightRock - leftRock) * 3
-    private val left = rocks.keys.minOf { it.x } - width
-    private val right = rocks.keys.maxOf { it.x } + width
+    private val left = leftRock - width
+    private val right = rightRock + width
     private val top = min(rocks.keys.minOf { it.y }, 0)
     private val bottom = rocks.keys.maxOf { it.y }
     val floor = 2 + bottom

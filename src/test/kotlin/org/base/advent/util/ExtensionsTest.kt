@@ -1,5 +1,6 @@
 package org.base.advent.util
 
+import org.base.advent.util.Extensions.md5ToHex
 import org.base.advent.util.Extensions.merge
 import org.base.advent.util.Extensions.size
 import org.junit.jupiter.api.Test
@@ -29,5 +30,11 @@ class ExtensionsTest {
         assertEquals((-5L..20L) to null, (5L..20L).merge(-5L..10L))
         // no overlap, return both ranges
         assertEquals((-5L..0L) to (5L..10L), (5L..10L).merge(-5L..0L))
+    }
+
+    @Test
+    fun testMd5ToHex() {
+        val str = "The fog is getting thicker!And Leon's getting laaarger!"
+        assertEquals("e2c569be17396eca2a2e3c11578123ed", str.md5ToHex())
     }
 }

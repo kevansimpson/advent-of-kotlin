@@ -42,8 +42,7 @@ class Day13(qualifier: String = "") : PuzzleReader {
         }
         return when {
             !lit.hasNext() -> if (rit.hasNext()) -1 else 0
-            !rit.hasNext() -> 1
-            else -> 0
+            else -> 1
         }
     }
 

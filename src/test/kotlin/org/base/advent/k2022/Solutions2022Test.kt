@@ -88,47 +88,11 @@ class Solutions2022Test {
         testSolutions(Day16(), 1923, 2594)
     }
 
-    /*
     @Test
     fun day17() {
-        testSolutions(Day17(), 5995, 3202)
+        testSolutions(Day17(), 3124L, 1561176470569L)
     }
 
-    @Test
-    fun day18() {
-        testSolutions(Day18(), 4145, 4855)
-    }
-
-    @Test
-    fun day19() {
-        testSolutions(Day19(), 509, 195)
-    }
-
-    @Test
-    fun day20() {
-        testSolutions(Day20(), 786240, 831600)
-    }
-
-    @Test
-    fun day21() {
-        testSolutions(Day21(), 111, 188)
-    }
-
-    @Test
-    fun day22() {
-        testSolutions(Day22(), 1824, 1937)
-    }
-
-    @Test
-    fun day23() {
-        testSolutions(Day23(), 307, 160)
-    }
-
-    @Test
-    fun day24() {
-        testSolutions(Day24(), 11846773891L, 80393059L)
-    }
-*/
     companion object {
         @BeforeAll @JvmStatic
         fun header() {

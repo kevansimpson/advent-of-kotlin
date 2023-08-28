@@ -5,10 +5,12 @@ import java.util.concurrent.atomic.AtomicLong
 
 data class Node<T>(val data: T,
                    private val parent: Node<T>? = null,
-                   private val depth: Long = 0L) {
+                   val depth: Long = 0L) {
 
     private val children = mutableListOf<Node<T>>()
     private val context = mutableMapOf<String, Any>()
+
+    operator fun inc(): Node<T> = this.copy(depth = this.depth + 1L)
 
     fun addChild(newData: T): Node<T> = Node(newData, this, depth + 1L).also { children.add(it) }
 
@@ -19,6 +21,10 @@ data class Node<T>(val data: T,
             children[0].detach(reason)
         parent?.children?.remove(this)
     }
+
+    fun sumDown(calc: (T) -> Long): Long = calc(data) + children.sumOf { it.sumDown(calc) }
+
+    fun sumUp(calc: (T) -> Long): Long = calc(data) + (parent?.sumUp(calc) ?: 0L)
 
     override fun toString(): String = "Node[$data @ %$depth w/ %${children.size} kids]"
 
