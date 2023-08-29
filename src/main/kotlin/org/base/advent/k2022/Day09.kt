@@ -1,22 +1,18 @@
 package org.base.advent.k2022
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import org.base.advent.util.Point
 
 /**
  * <a href="https://adventofcode.com/2022/day/09">Day 09</a>
  */
-class Day09 : PuzzleReader {
+class Day09 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val knots = input.map { with(it.split(" ")) { first() to last().toInt() } }
+        return fromInputToPlank(knots, 2) to fromInputToPlank(knots,10)
+    }
 
-    private val input =
-        readLines("2022/input09.txt")
-            .map { with (it.split(" ")) { first() to last().toInt() } }
-
-    override fun solve1(): Any = fromInputToPlank(2)
-
-    override fun solve2(): Any = fromInputToPlank(10)
-
-    private fun fromInputToPlank(knots: Int): Int =
+    private fun fromInputToPlank(input: List<Pair<String, Int>>, knots: Int): Int =
         input.fold(Planck(knots = Array(knots) { Point.ORIGIN }.toList())) { planck, move ->
             movePlanck(planck, move) }.path.size
 

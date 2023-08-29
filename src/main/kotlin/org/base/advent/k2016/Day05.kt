@@ -7,15 +7,12 @@ import org.base.advent.util.Text.nextHash
 /**
  * <a href="https://adventofcode.com/2016/day/5">Day 5</a>
  */
-class Day05 : PuzzleSolver, TimeSaver {
+class Day05 : PuzzleSolver<String>, TimeSaver {
+    override fun solve1(input: String): Any = if (fullSolve) hackDoor1(input) else fastHackDoor1()
 
-    private val input = "uqwqemis"
+    override fun solve2(input: String): Any = if (fullSolve) hackDoor2(input, first8.last().second) else fastHackDoor2()
 
-    override fun solve1(): Any = if (fullSolve) hackDoor1() else fastHackDoor1()
-
-    override fun solve2(): Any = if (fullSolve) hackDoor2(first8.last().second) else fastHackDoor2()
-
-    private fun hackDoor1(): String = // +86s!
+    private fun hackDoor1(input: String): String = // +86s!
         mergeHashIndexPairs((0..7).fold(Pair(listOf<Pair<String, Long>>(), 0L)) { listIndex, _ ->
             val next = nextHash(input, PREFIX, listIndex.second)
             Pair(listIndex.first + listOf(next), next.second + 1L)
@@ -35,7 +32,7 @@ class Day05 : PuzzleSolver, TimeSaver {
         pswd
     }
 
-    private fun hackDoor2(start: Long = 0L): String {
+    private fun hackDoor2(input: String, start: Long = 0L): String {
         val pswd = initialPswd.copyOf()
         var index = start
         while (String(pswd).contains(" ")) {

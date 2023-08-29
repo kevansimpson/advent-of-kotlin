@@ -1,39 +1,36 @@
 package org.base.advent.k2015
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * <a href="https://adventofcode.com/2015/day/15">Day 15</a>
  */
-class Day15 : PuzzleReader {
-
-    private val input = readLines("2015/input15.txt")
-
-    override fun solve1(): Any = highestScore(-1)
-
-    override fun solve2(): Any = highestScore(500)
-
-    private val cookbook by lazy {
-        input.map { REGEX.matchEntire(it) }.associate {
-            val (name, cap, d, f, t, cal) = it!!.destructured
-            Pair(name, Ingredient(name, mapOf(
-                    Trait.capacity to cap.toInt(),
-                    Trait.durability to d.toInt(),
-                    Trait.flavor to f.toInt(),
-                    Trait.texture to t.toInt(),
-                    Trait.calories to cal.toInt()
-            )))
-        }
+class Day15 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val cookbook = input.map { REGEX.matchEntire(it) }
+            .associate {
+                val (name, cap, d, f, t, cal) = it!!.destructured
+                Pair(name, Ingredient(name,
+                    mapOf(Trait.Capacity to cap.toInt(), Trait.Durability to d.toInt(), Trait.Flavor to f.toInt(),
+                            Trait.Texture to t.toInt(), Trait.Calories to cal.toInt())))
+            }
+        val ingredientList = cookbook.values.toList()
+        return highestScore(cookbook, ingredientList, -1) to
+                highestScore(cookbook, ingredientList, 500)
     }
 
-    private fun highestScore(caloricReq: Int): Int {
+    private fun highestScore(cookbook: Map<String, Ingredient>,
+                             ingredientList: List<Ingredient>,
+                             caloricReq: Int): Int {
         val highest = AtomicInteger(Int.MIN_VALUE)
-        cookEverything(cookbook.values.toList(), 0, highest, Recipe(), 100, caloricReq)
+        cookEverything(cookbook, ingredientList, 0, highest, Recipe(), 100, caloricReq)
         return highest.get()
     }
 
-    private fun cookEverything(ingredientList: List<Ingredient>, index: Int, highestScore: AtomicInteger,
+    private fun cookEverything(cookbook: Map<String, Ingredient>,
+                               ingredientList: List<Ingredient>,
+                               index: Int, highestScore: AtomicInteger,
                                recipe: Recipe, total: Int, caloricReq: Int) {
         if (ingredientList.size <= index) {
             if (recipe.sumTeaspoons() == 100) {
@@ -49,7 +46,7 @@ class Day15 : PuzzleReader {
         for (i in 0..total) {
             val current = ingredientList[index]
             recipe.ingredients[current.name] = i
-            cookEverything(ingredientList, index + 1, highestScore, recipe, total - i, caloricReq)
+            cookEverything(cookbook, ingredientList, index + 1, highestScore, recipe, total - i, caloricReq)
         }
     }
 
@@ -61,19 +58,19 @@ class Day15 : PuzzleReader {
 }
 
 enum class Trait {
-    capacity, durability, flavor, texture, calories
+    Capacity, Durability, Flavor, Texture, Calories
 }
 
 data class Recipe(val ingredients: MutableMap<String, Int> = mutableMapOf()) {
     fun caloricCount(cookbook: Map<String, Ingredient>): Int =
         cookbook.keys.fold(0) { count, name ->
-            count + (ingredients[name]!! * cookbook[name]!!.traits[Trait.calories]!!)
+            count + (ingredients[name]!! * cookbook[name]!!.traits[Trait.Calories]!!)
         }.coerceAtLeast(0)
 
     fun score(cookbook: Map<String, Ingredient>): Int {
         var score = 1
         for (trait in Trait.values()) {
-            if (trait != Trait.calories) {
+            if (trait != Trait.Calories) {
                 val value = cookbook.keys.fold(0) { count, name ->
                     count + (ingredients[name]!! * cookbook[name]!!.traits[trait]!!)
                 }

@@ -1,18 +1,15 @@
 package org.base.advent.k2019
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 import kotlin.math.floor
 
 /**
  * <a href="https://adventofcode.com/2019/day/01">Day 01</a>
  */
-class Day01 : PuzzleReader {
+class Day01 : PuzzleSolver<List<Int>> {
+    override fun solve1(input: List<Int>): Any = input.sumOf { calculate(it) }
 
-    private val input = readLines("2019/input01.txt").map { it.toInt() }
-
-    override fun solve1(): Any = input.sumOf { calculate(it) }
-
-    override fun solve2(): Any = input.sumOf { accumulate(it) }
+    override fun solve2(input: List<Int>): Any = input.sumOf { accumulate(it) }
 
     private fun calculate(mass: Int) = (floor((mass / 3).toDouble()) - 2).toInt()
 

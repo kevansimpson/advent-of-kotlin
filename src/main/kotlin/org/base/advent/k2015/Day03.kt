@@ -1,19 +1,16 @@
 package org.base.advent.k2015
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 import org.base.advent.util.Point
 import org.base.advent.util.Point.Companion.ORIGIN
 
 /**
  * <a href="https://adventofcode.com/2015/day/3">Day 3</a>
  */
-class Day03 : PuzzleReader {
+class Day03 : PuzzleSolver<String> {
+    override fun solve1(input: String): Any = HashSet<Point>().follow(input, 0, 1)
 
-    private val input = readSingleLine("2015/input03.txt")
-
-    override fun solve1(): Any = HashSet<Point>().follow(input, 0, 1)
-
-    override fun solve2(): Any {
+    override fun solve2(input: String): Any {
         val set = HashSet<Point>()
         set.follow(input, 0, 2)
         return set.follow(input, 1, 2)

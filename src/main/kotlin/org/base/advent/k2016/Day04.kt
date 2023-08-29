@@ -1,27 +1,23 @@
 package org.base.advent.k2016
 
 import org.apache.commons.lang3.StringUtils
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import org.base.advent.util.Text.shiftText
 
 /**
  * <a href="https://adventofcode.com/2016/day/4">Day 4</a>
  */
-class Day04 : PuzzleReader {
-    private val input = readLines("2016/input04.txt")
-
-    override fun solve1(): Any = roomList.filter(this::isReal).sumOf { it.sectorId }
-
-    override fun solve2(): Any = northPoleRoom()
-
-    private val roomList by lazy {
-        input.map { REGEX.matchEntire(it) }.map {
-            val (name, sectorId, checksum) = it!!.destructured
-            Room(name, sectorId.toInt(), checksum)
-        }
+class Day04 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val roomList = input.map { REGEX.matchEntire(it) }
+            .map {
+                val (name, sectorId, checksum) = it!!.destructured
+                Room(name, sectorId.toInt(), checksum)
+            }
+        return roomList.filter(this::isReal).sumOf { it.sectorId } to northPoleRoom(roomList)
     }
 
-    private fun northPoleRoom(): Int =
+    private fun northPoleRoom(roomList: List<Room>): Int =
         roomList.map { shiftText(it.name, it.sectorId) to it }
                 .first { it.first.contains("northpole") }.second.sectorId
 
@@ -34,7 +30,7 @@ class Day04 : PuzzleReader {
                             .joinToString("") { it.key }, 0, 5)
 
     companion object {
-        private val REGEX = "([\\-a-z]+)\\-(\\d+)\\[([a-z]+)]".toRegex()
+        private val REGEX = "([\\-a-z]+)-(\\d+)\\[([a-z]+)]".toRegex()
     }
 }
 

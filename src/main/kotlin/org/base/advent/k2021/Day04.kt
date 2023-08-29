@@ -1,53 +1,47 @@
 package org.base.advent.k2021
 
 import org.apache.commons.lang3.StringUtils
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 
 /**
  * <a href="https://adventofcode.com/2021/day/4">Day 4</a>
  */
-class Day04 : PuzzleReader {
-
-    private val input = readLines("2021/input04.txt")
-
-    override fun solve1(): Any = winners.first().score()
-
-    override fun solve2(): Any = winners.last().score()
-
-    private val numbers by lazy { input[0].split(",").map { it.trim().toInt() } }
-
-    private val bingoCards by lazy {
-        input.drop(1).fold(listOf<MutableList<String>>()) { list, line ->
-            if (StringUtils.isBlank(line))
-                list + listOf(mutableListOf())
-            else {
-                list.last().add(line)
-                list
+class Day04 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val numbers = input[0].split(",").map { it.trim().toInt() }
+        val bingoCards = input.drop(1).fold(listOf<MutableList<String>>()) { list, line ->
+                if (StringUtils.isBlank(line))
+                    list + listOf(mutableListOf())
+                else {
+                    list.last().add(line)
+                    list
+                }
+            }.map { rows ->
+                BingoCard(rows.map { r ->
+                    r.split(" ").filter { s -> s.isNotBlank() }
+                        .map { it.trim().toInt() }.toIntArray() to BooleanArray(5) { false }
+                })
             }
-        }.map { rows -> BingoCard(rows.map {
-            r -> r.split(" ").filter { s -> s.isNotBlank() }
-                .map { it.trim().toInt() }.toIntArray() to BooleanArray(5) { false } })
-        }
-    }
 
-    private val winners by lazy {
-        val cards = bingoCards.map { it.copy() }
-        numbers.fold(mutableListOf<BingoCard>()) { list, num ->
-            cards.forEach { card ->
-                if (!card.hasWon()) {
-                    card.rows.forEach { pair ->
-                        val at = pair.first.indexOf(num)
-                        if (at >= 0)
-                            pair.second[at] = true
-                    }
-                    if (card.isWinner()) {
-                        card.winningNumber = num
-                        list.add(card)
+        val winners = with (bingoCards.map { it.copy() }) {
+            numbers.fold(mutableListOf<BingoCard>()) { list, num ->
+                forEach { card ->
+                    if (!card.hasWon()) {
+                        card.rows.forEach { pair ->
+                            val at = pair.first.indexOf(num)
+                            if (at >= 0)
+                                pair.second[at] = true
+                        }
+                        if (card.isWinner()) {
+                            card.winningNumber = num
+                            list.add(card)
+                        }
                     }
                 }
+                list
             }
-            list
         }
+        return winners.first().score() to winners.last().score()
     }
 }
 

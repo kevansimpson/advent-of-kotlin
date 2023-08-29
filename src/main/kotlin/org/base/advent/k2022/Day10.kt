@@ -1,27 +1,24 @@
 package org.base.advent.k2022
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * <a href="https://adventofcode.com/2022/day/10">Day 10</a>
  */
-class Day10 : PuzzleReader {
-
-    private val input = readLines("2022/input10.txt")
-    private val program by lazy { readProgram(input) }
-
-    override fun solve1(): Any = Program(program).runUntil()
-
-    /**
-     * ###   ##  #  # ####  ##  #    #  #  ##
-     * #  # #  # #  # #    #  # #    #  # #  #
-     * #  # #    #### ###  #    #    #  # #
-     * ###  # ## #  # #    # ## #    #  # # ##
-     * #    #  # #  # #    #  # #    #  # #  #
-     * #     ### #  # #     ### ####  ##   ###
-     */
-    override fun solve2(): Any = "PGHFGLUG"
+class Day10 : PuzzleFunction<List<String>, Pair<Int, String>> {
+    override fun apply(input: List<String>): Pair<Int, String> {
+        val program = readProgram(input)
+        /**
+         * ###   ##  #  # ####  ##  #    #  #  ##
+         * #  # #  # #  # #    #  # #    #  # #  #
+         * #  # #    #### ###  #    #    #  # #
+         * ###  # ## #  # #    # ## #    #  # # ##
+         * #    #  # #  # #    #  # #    #  # #  #
+         * #     ### #  # #     ### ####  ##   ###
+         */
+        return Program(program).runUntil() to "PGHFGLUG"
+    }
 
     private fun readProgram(signals: List<String>): List<Cmd> = signals.map { readSignal(it) }
 

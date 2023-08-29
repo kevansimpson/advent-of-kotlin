@@ -1,17 +1,15 @@
 package org.base.advent.k2015
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 
 /**
  * <a href="https://adventofcode.com/2015/day/23">Day 23</a>
  */
-class Day23 : PuzzleReader {
+class Day23 : PuzzleSolver<List<String>> {
 
-    private val input = readLines("2015/input23.txt")
+    override fun solve1(input: List<String>): Any = solve(input, 0)
 
-    override fun solve1(): Any = solve(input, 0)
-
-    override fun solve2(): Any = solve(input, 1)
+    override fun solve2(input: List<String>): Any = solve(input, 1)
 
     private fun solve(instructions: List<String>, a: Int, b: Int = 0): Int {
         val registers = mutableMapOf("a" to a, "b" to b)

@@ -1,6 +1,6 @@
 package org.base.advent.k2015
 
-import org.base.advent.PuzzleSolver
+import org.base.advent.PuzzleSupplier
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.max
@@ -8,11 +8,9 @@ import kotlin.math.max
 /**
  * <a href="https://adventofcode.com/2015/day/22">Day 22</a>
  */
-class Day22 : PuzzleSolver {
-
-    override fun solve1(): Any = fightBoss(newQueue(), false)
-
-    override fun solve2(): Any = fightBoss(newQueue(), true)
+class Day22 : PuzzleSupplier<Pair<Int, Int>> {
+    override fun get(): Pair<Int, Int> =
+        fightBoss(newQueue(), false) to fightBoss(newQueue(), true)
 
     private fun fightBoss(wizards: PriorityQueue<Wizard>, hard: Boolean): Int {
         val lowestManaSpent = AtomicInteger(Int.MAX_VALUE)

@@ -1,33 +1,31 @@
 package org.base.advent.k2021
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import org.base.advent.TimeSaver
-import org.base.advent.util.Permutations.permutations
 import org.base.advent.util.Extensions.sort
+import org.base.advent.util.Permutations.permutations
 import java.util.stream.Collectors
 
 /**
  * <a href="https://adventofcode.com/2021/day/8">Day 8</a>
  */
-class Day08 : PuzzleReader, TimeSaver {
-
-    private val input = readLines("2021/input08.txt")
-
-    override fun solve1(): Any =
-            signals.sumOf { it[1].count { sig -> when (sig.length) {
-                2 /*1*/, 4 /*1*/, 3 /*7*/, 7 /*8*/ -> true
-                else -> false
-            } } }
-
-    override fun solve2(): Any = if (fullSolve) deducedSum else 1007675
-
-    private val signals by lazy { // List< 2-item-List< ListOfPatterns, ListOfOutputs >>
-        input.map { it.split(" | ") }
-                .map { it.map { s1 -> s1.split(" ")
-                        .map { s2 -> s2.toSortedSet().joinToString("") } } }
+class Day08 : PuzzleFunction<List<String>, Pair<Int, Int>>, TimeSaver {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        // List< 2-item-List< ListOfPatterns, ListOfOutputs >>
+        val signals = input
+            .map { it.split(" | ") }
+            .map { it.map { s1 -> s1.split(" ").map { s2 -> s2.toSortedSet().joinToString("") } } }
+        val sum = signals.sumOf {
+            it[1].count { sig ->
+                when (sig.length) {
+                    2 /*1*/, 4 /*1*/, 3 /*7*/, 7 /*8*/ -> true
+                    else -> false
+                }
+            }
+        }
+        val deducedSum by lazy { signals.sumOf { deduceDigits(it[0], it[1]) } }
+        return sum to if (fullSolve) deducedSum else 1007675
     }
-
-    private val deducedSum by lazy { signals.sumOf { deduceDigits(it[0], it[1]) } }
 
     private fun deduceDigits(signals: List<String>, output: List<String>): Int {
         var possible: Map<Char, Char>? = null

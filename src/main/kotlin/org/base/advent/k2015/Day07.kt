@@ -2,26 +2,20 @@ package org.base.advent.k2015
 
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.math.NumberUtils
-import org.base.advent.PuzzleReader
-import java.lang.IllegalStateException
-import java.util.HashMap
+import org.base.advent.PuzzleFunction
 
 /**
  * <a href="https://adventofcode.com/2015/day/7">Day 7</a>
  */
-class Day07 : PuzzleReader {
-
-    private val input = readLines("2015/input07.txt")
-
-    override fun solve1(): Any = HashMap<String, Int>().calculate(circuitMap, "a")
-
-    override fun solve2(): Any = HashMap(mapOf(Pair("b", 46065))).calculate(circuitMap, "a")
-
-    private val circuitMap by lazy {
-        input.map { REGEX.matchEntire(it) }.associate {
-            val (values, key) = it!!.destructured
-            Pair(key, values.split("\\s".toRegex()))
-        }
+class Day07 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val circuitMap = input.map { REGEX.matchEntire(it) }
+            .associate {
+                val (values, key) = it!!.destructured
+                Pair(key, values.split("\\s".toRegex()))
+            }
+        return HashMap<String, Int>().calculate(circuitMap, "a") to
+                HashMap(mapOf(Pair("b", 46065))).calculate(circuitMap, "a")
     }
 
     private fun HashMap<String, Int>.calculate(circuitMap: CircuitMap, wire: String): Int {

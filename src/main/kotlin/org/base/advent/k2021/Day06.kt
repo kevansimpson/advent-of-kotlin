@@ -1,19 +1,17 @@
 package org.base.advent.k2021
 
+import org.base.advent.PuzzleFunction
 import org.base.advent.PuzzleReader
 import java.util.*
 
 /**
  * <a href="https://adventofcode.com/2021/day/6">Day 6</a>
  */
-class Day06 : PuzzleReader {
-
-    private val input = readSingleLine("2021/input06.txt").split(",").map { it.toInt() }
-
-    override fun solve1(): Any = input.chunked(5).sumOf { simulateLanternFish(it) }.toLong()
-    // timedLanternFish(input, 80) also works
-
-    override fun solve2(): Any = timedLanternFish(input)
+class Day06 : PuzzleFunction<String, Pair<Long, Long>>, PuzzleReader {
+    override fun apply(input: String): Pair<Long, Long> {
+        val fish = input.csvToInt()
+        return fish.chunked(5).sumOf { simulateLanternFish(it) }.toLong() to timedLanternFish(fish)
+    }
 
     // from Reddit, adapted from https://github.com/Praful/advent_of_code/blob/main/2021/src/day06.jl
     private fun timedLanternFish(fishList: List<Int>, days: Int = 256): Long {

@@ -1,19 +1,15 @@
 package org.base.advent.k2022
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 
 /**
  * <a href="https://adventofcode.com/2022/day/02">Day 02</a>
  */
-class Day02 : PuzzleReader {
-
-    private val input = readLines("2022/input02.txt")
-
-    private val pairs by lazy { input.map { SCORES[it] } }
-
-    override fun solve1(): Any = pairs.sumOf { it!!.first }
-
-    override fun solve2(): Any = pairs.sumOf { it!!.second }
+class Day02 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val pairs = input.map { SCORES[it] }
+        return pairs.sumOf { it!!.first } to pairs.sumOf { it!!.second }
+    }
 
     companion object {
         private val SCORES = mapOf(

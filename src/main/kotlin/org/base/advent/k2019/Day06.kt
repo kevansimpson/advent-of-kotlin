@@ -1,22 +1,18 @@
 package org.base.advent.k2019
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 
 /**
  * <a href="https://adventofcode.com/2019/day/06">Day 06</a>
  */
-class Day06 : PuzzleReader {
+class Day06 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val orbits = mapOrbits(input)
+        val reversed = reverseOrbits(orbits)
+        return orbits.keys.sumOf { countOrbits(orbits, it) } to transferOrbits(reversed, orbits = orbits)
+    }
 
-    private val input = readLines("2019/input06.txt")
-//    private val input = listOf("COM)B", "B)C", "C)D", "D)E", "E)F", "B)G", "G)H", "D)I", "E)J", "J)K", "K)L", "K)YOU", "I)SAN")
-    private val orbits = mapOrbits(input)
-    private val reversed = reverseOrbits(orbits)
-
-    override fun solve1(): Any = orbits.keys.sumOf { countOrbits(orbits, it) }
-
-    override fun solve2(): Any = transferOrbits(orbits = orbits)
-
-    private fun transferOrbits(from: String = "YOU", to: String = "SAN", orbits: Map<String, List<String>>): Int {
+    private fun transferOrbits(reversed: Map<String, String>, from: String = "YOU", to: String = "SAN", orbits: Map<String, List<String>>): Int {
         val visited = mutableSetOf(to)
         var planets = mutableSetOf(reversed[to]!!)
         var count = 0

@@ -1,22 +1,22 @@
 package org.base.advent.k2022
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import java.util.*
 
 /**
  * <a href="https://adventofcode.com/2022/day/07">Day 07</a>
  */
-class Day07 : PuzzleReader {
-
-    private val input = readLines("2022/input07.txt").map { it.split(" ") }
-    private val rootDir: Dir = parseLogs(input)
-    private val totalSize = rootDir.totalSize
-    private val allDirs = rootDir.flatten()
-
-    override fun solve1(): Any = allDirs.filter { it.totalSize < 100000 }.sumOf { it.totalSize }
-
-    override fun solve2(): Any = with (30000000 - (70000000 - totalSize)) {
-        allDirs.filter { it.totalSize >= this }.minOf { it.totalSize }
+class Day07 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val logs = input.map { it.split(" ") }
+        val rootDir: Dir = parseLogs(logs)
+        val totalSize = rootDir.totalSize
+        val allDirs = rootDir.flatten()
+        val sum100kDirs = allDirs.filter { it.totalSize < 100000 }.sumOf { it.totalSize }
+        val smallestToDelete = with(30000000 - (70000000 - totalSize)) {
+            allDirs.filter { it.totalSize >= this }.minOf { it.totalSize }
+        }
+        return sum100kDirs to smallestToDelete
     }
 
     private fun parseLogs(logs: List<List<String>>): Dir = with(Stack<Dir>()) {

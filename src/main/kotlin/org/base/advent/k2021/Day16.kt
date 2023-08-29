@@ -1,24 +1,19 @@
 package org.base.advent.k2021
 
 import org.apache.commons.lang3.StringUtils
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import org.base.advent.util.Text.bits2hex
 import org.base.advent.util.Text.hex2bits
 
 /**
  * <a href="https://adventofcode.com/2021/day/16">Day 16</a>
  */
-class Day16 : PuzzleReader {
-
-    private val input = readSingleLine("2021/input16.txt")
-
-    override fun solve1(): Any = packets.sumOf { it.sumVersion() }
-
-    override fun solve2(): Any = packets.sumOf { it.totalValue() }
-
-    private val binary by lazy { toBinary(input) }
-
-    private val packets by lazy { parsePackets(binary) }
+class Day16 : PuzzleFunction<String, Pair<Int, Long>> {
+    override fun apply(input: String): Pair<Int, Long> {
+        val binary = toBinary(input)
+        val packets = parsePackets(binary)
+        return packets.sumOf { it.sumVersion() } to packets.sumOf { it.totalValue() }
+    }
 
     private fun parsePackets(packetBinary: String): List<Packet> {
         val list = mutableListOf<Packet>()

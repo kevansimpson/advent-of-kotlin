@@ -1,38 +1,23 @@
 package org.base.advent.k2016
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import org.base.advent.util.Point
 
 /**
  * <a href="https://adventofcode.com/2016/day/8">Day 8</a>
  */
-class Day08 : PuzzleReader {
-
-    private val input = readLines("2016/input08.txt")
-//    private val input = listOf(
-//        "rect 3x2",
-//        "rotate column x=1 by 1",
-//        "rotate row y=0 by 4",
-//        "rotate column x=1 by 1"
-//    )
-
-    override fun solve1(): Any = grid.size
-
-    override fun solve2(): Any {
-        display(grid)
-        return "UPOJFLBCEZ"
-    }
-
-    private val grid by lazy {
-        input.fold(mutableSetOf<Point>()) { set, instruction ->
-            when {
-                instruction.startsWith("rect") -> rect(instruction, set)
-                instruction.contains("row") -> row(instruction, set)
-                instruction.contains("column") -> column(instruction, set)
+class Day08 : PuzzleFunction<List<String>, Pair<Int, String>> {
+    override fun apply(input: List<String>): Pair<Int, String> {
+        val grid = input.fold(mutableSetOf<Point>()) { set, instruction ->
+                when {
+                    instruction.startsWith("rect") -> rect(instruction, set)
+                    instruction.contains("row") -> row(instruction, set)
+                    instruction.contains("column") -> column(instruction, set)
+                }
+                set
             }
-//            display(set)
-            set
-        }
+        display(grid)
+        return grid.size to "UPOJFLBCEZ"
     }
 
     private fun rect(line: String, grid: MutableSet<Point>) {
@@ -77,7 +62,5 @@ class Day08 : PuzzleReader {
     companion object {
         private const val WIDTH = 50
         private const val HEIGHT = 6
-//        private const val WIDTH = 7
-//        private const val HEIGHT = 3
     }
 }

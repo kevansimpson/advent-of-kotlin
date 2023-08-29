@@ -1,20 +1,18 @@
 package org.base.advent.k2016
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 import java.util.*
 
 /**
  * <a href="https://adventofcode.com/2016/day/3">Day 3</a>
  */
-class Day03 : PuzzleReader {
+class Day03 : PuzzleSolver<List<String>> {
 
-    private val input = readLines("2016/input03.txt")
+    override fun solve1(input: List<String>): Any = trianglesByRow(codes(input))
 
-    override fun solve1(): Any = trianglesByRow(codes())
+    override fun solve2(input: List<String>): Any = trianglesByColumn(codes(input))
 
-    override fun solve2(): Any = trianglesByColumn(codes())
-
-    private fun codes() =
+    private fun codes(input: List<String>) =
         input.map { REGEX.findAll(it.trim()).toList().map { m -> m.value.toInt() }.toIntArray() }
 
     private fun trianglesByRow(codes: List<IntArray>): Int = codes.count { isValidTriangle(it) }

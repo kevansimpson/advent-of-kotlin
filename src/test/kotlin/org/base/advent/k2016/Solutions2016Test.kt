@@ -1,133 +1,63 @@
 package org.base.advent.k2016
 
+import org.base.advent.PuzzleReader
 import org.base.advent.PuzzleTester.banner
 import org.base.advent.PuzzleTester.testSolutions
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
-class Solutions2016Test {
+class Solutions2016Test : PuzzleReader {
 
     @Test
     fun day01() {
-        testSolutions(Day01(), 288L, 111L)
+        testSolutions(Day01(), readSingleLine("2016/input01.txt").csv(", "), 288L, 111L)
     }
 
     @Test
     fun day02() {
-        testSolutions(Day02(), "76792", "A7AC3")
+        testSolutions(Day02(), readLines("2016/input02.txt"), "76792", "A7AC3")
     }
 
     @Test
     fun day03() {
-        testSolutions(Day03(), 982, 1826)
+        testSolutions(Day03(), readLines("2016/input03.txt"), 982, 1826)
     }
 
     @Test
     fun day04() {
-        testSolutions(Day04(), 137896, 501)
+        testSolutions(Day04(), readLines("2016/input04.txt"), 137896, 501)
     }
 
     @Test
     fun day05() {
-        testSolutions(Day05(), "1a3099aa", "694190cd")
+        testSolutions(Day05(), "uqwqemis", "1a3099aa", "694190cd")
     }
 
     @Test
     fun day06() {
-        testSolutions(Day06(), "umcvzsmw", "rwqoacfz")
+        testSolutions(Day06(), readLines("2016/input06.txt"), "umcvzsmw", "rwqoacfz")
     }
 
     @Test
     fun day07() {
-        testSolutions(Day07(), 118, 260)
+        testSolutions(Day07(), readLines("2016/input07.txt"), 118, 260)
     }
 
     @Test
     fun day08() {
-        testSolutions(Day08(), 116, "UPOJFLBCEZ")
+        testSolutions(Day08(), readLines("2016/input08.txt"), 116, "UPOJFLBCEZ")
     }
 
     @Test
     fun day09() {
-        testSolutions(Day09(), 123908L, 10755693147L)
+        testSolutions(Day09(), readSingleLine("2016/input09.txt"), 123908L, 10755693147L)
     }
 
     @Test
     fun day10() {
-        testSolutions(Day10(), 116, 23903)
+        testSolutions(Day10(), readLines("2016/input10.txt"), 116, 23903)
     }
-/*
-    @Test
-    fun day11() {
-        testSolutions(Day11(), "vzbxxyzz", "vzcaabcc")
-    }
-
-    @Test
-    fun day12() {
-        testSolutions(Day12(), 111754, 65402)
-    }
-
-    @Test
-    fun day13() {
-        testSolutions(Day13(), 733, 725)
-    }
-
-    @Test
-    fun day14() {
-        testSolutions(Day14(), 2696, 1084)
-    }
-
-    @Test
-    fun day15() {
-        testSolutions(Day15(), 18965440, 15862900)
-    }
-
-    @Test
-    fun day16() {
-        testSolutions(Day16(), 40, 241)
-    }
-
-    @Test
-    fun day17() {
-        testSolutions(Day17(), 1304, 18)
-    }
-
-    @Test
-    fun day18() {
-        testSolutions(Day18(), 821, 886)
-    }
-
-    @Test
-    fun day19() {
-        testSolutions(Day19(), 509, 195)
-    }
-
-    @Test
-    fun day20() {
-        testSolutions(Day20(), 786240, 831600)
-    }
-
-    @Test
-    fun day21() {
-        testSolutions(Day21(), 111, 188)
-    }
-
-    @Test
-    fun day22() {
-        testSolutions(Day22(), 1824, 1937)
-    }
-
-    @Test
-    fun day23() {
-        testSolutions(Day23(), 307, 160)
-    }
-
-    @Test
-    fun day24() {
-        testSolutions(Day24(), 11846773891L, 80393059L)
-    }
-*/
     companion object {
         @BeforeAll @JvmStatic
         fun header() {

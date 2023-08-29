@@ -1,19 +1,16 @@
 package org.base.advent.k2015
 
 import org.apache.commons.lang3.StringUtils
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 
 /**
  * <a href="https://adventofcode.com/2015/day/8">Day 8</a>
  */
-class Day08 : PuzzleReader {
-
-    private val input = readLines("2015/input08.txt")
-
-    override fun solve1(): Any =
+class Day08 : PuzzleSolver<List<String>> {
+    override fun solve1(input: List<String>): Any =
             input.fold(0) { inMem, dir -> inMem + 2 + computeInMemory(chop(dir)) }
 
-    override fun solve2(): Any =
+    override fun solve2(input: List<String>): Any =
             input.fold(0) { inMem, dir -> inMem + 4 + computeEncrypted(chop(dir)) }
 
     private fun chop(direction: String): String =

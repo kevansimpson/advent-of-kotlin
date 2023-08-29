@@ -1,22 +1,15 @@
 package org.base.advent.k2016
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 
 /**
  * <a href="https://adventofcode.com/2016/day/7">Day 7</a>
  */
-class Day07 : PuzzleReader {
-
-    private val input = readLines("2016/input07.txt")
-
-    override fun solve1(): Any = ipv7List.count { supportsTLS(it) }
-
-    override fun solve2(): Any = ipv7List.count { supportsSSL(it) }
-
-    private val ipv7List by lazy {
-        input.map { it.split("]").flatMap { s -> s.split("[") } }
+class Day07 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val ipv7List = input.map { it.split("]").flatMap { s -> s.split("[") } }
+        return ipv7List.count { supportsTLS(it) } to ipv7List.count { supportsSSL(it) }
     }
-
     private fun supportsTLS(ipv7: List<String>): Boolean =
             (ipv7.filterIndexed { index, _ -> (index % 2) == 0 }.count { abba(it) }) > 0 &&
                     (ipv7.filterIndexed { index, _ -> (index % 2) > 0 }.count { abba(it) }) == 0

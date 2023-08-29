@@ -1,19 +1,17 @@
 package org.base.advent.k2016
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 import org.base.advent.util.Dir
 import org.base.advent.util.Point
 
 /**
  * <a href="https://adventofcode.com/2016/day/1">Day 1</a>
  */
-class Day01 : PuzzleReader {
+class Day01 : PuzzleSolver<List<String>> {
 
-    private val input = readSingleLine("2016/input01.txt").split(", ")
+    override fun solve1(input: List<String>): Any = followDirections(input, false)
 
-    override fun solve1(): Any = followDirections(input, false)
-
-    override fun solve2(): Any = followDirections(input, true)
+    override fun solve2(input: List<String>): Any = followDirections(input, true)
 
     private fun followDirections(directions: List<String>, stopOn2ndVisit: Boolean): Long {
         val path = mutableListOf(Point.ORIGIN)

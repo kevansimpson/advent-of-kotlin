@@ -1,20 +1,19 @@
 package org.base.advent.k2015
 
 import org.apache.commons.lang3.StringUtils
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 import org.base.advent.TimeSaver
 import java.util.concurrent.atomic.AtomicReference
 
 /**
  * <a href="https://adventofcode.com/2015/day/24">Day 24</a>
  */
-class Day24 : PuzzleReader, TimeSaver {
+class Day24 : PuzzleSolver<List<String>>, TimeSaver {
 
-    private val input = readLines("2015/input24.txt").map { it.toInt() }
+    override fun solve1(input: List<String>): Any =
+        if (fullSolve) solveFor(input.map { it.toInt() }, 3) else 11846773891L
 
-    override fun solve1(): Any = if (fullSolve) solveFor(input, 3) else 11846773891L
-
-    override fun solve2(): Any = solveFor(input, 4)
+    override fun solve2(input: List<String>): Any = solveFor(input.map { it.toInt() }, 4)
 
     private fun solveFor(containers: List<Int>, numCompartments: Int): Long {
         val solution = AtomicReference(Solution())

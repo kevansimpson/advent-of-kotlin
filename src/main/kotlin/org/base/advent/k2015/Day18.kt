@@ -1,21 +1,19 @@
 package org.base.advent.k2015
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 import org.base.advent.TimeSaver
 
 /**
  * <a href="https://adventofcode.com/2015/day/18">Day 18</a>
  */
-class Day18 : PuzzleReader, TimeSaver {
+class Day18 : PuzzleSolver<List<String>>, TimeSaver {
 
-    private val input = readLines("2015/input18.txt")
+    override fun solve1(input: List<String>): Any = totalLights(input, false)
 
-    override fun solve1(): Any = totalLights(false)
+    override fun solve2(input: List<String>): Any = totalLights(input, true)
 
-    override fun solve2(): Any = totalLights(true)
-
-    private fun totalLights(breakCornerLights: Boolean): Int {
-        val grid = loadGrid()
+    private fun totalLights(input: List<String>, breakCornerLights: Boolean): Int {
+        val grid = loadGrid(input)
         if (fullSolve) display(grid)
         if (breakCornerLights)
             breakCornerLights(grid)
@@ -55,7 +53,7 @@ class Day18 : PuzzleReader, TimeSaver {
                 grid[i - 1][j], grid[i + 1][j],
                 grid[i - 1][j + 1], grid[i][j + 1], grid[i + 1][j + 1]).count { it }
 
-    private fun loadGrid(): Array<BooleanArray> {
+    private fun loadGrid(input: List<String>): Array<BooleanArray> {
         val size = input.size
         val grid = Array(size + 2) { BooleanArray(size + 2) }
         for (i in 0 until size) {

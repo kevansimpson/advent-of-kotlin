@@ -1,26 +1,25 @@
 package org.base.advent.k2015
 
-import org.base.advent.PuzzleSolver
+import org.base.advent.PuzzleSupplier
 import java.util.concurrent.atomic.AtomicReference
 
 /**
  * <a href="https://adventofcode.com/2015/day/21">Day 21</a>
  */
-class Day21 : PuzzleSolver {
+class Day21 : PuzzleSupplier<Pair<Int, Int>> {
+    override fun get(): Pair<Int, Int> {
+        val shop = Shop()
+        val bestWorst = makeOutfits(shop)
+        return bestWorst.first.cost to bestWorst.second.cost
+    }
 
-    override fun solve1(): Any = bestWorst.first.cost
-
-    override fun solve2(): Any = bestWorst.second.cost
-
-    private val shop = Shop()
-
-    private val bestWorst by lazy { makeOutfits() }
-
-    private fun makeOutfits(): Pair<Outfit, Outfit> {
+    private fun makeOutfits(shop: Shop): Pair<Outfit, Outfit> {
         val best = AtomicReference(
-                Outfit(listOf(Item("best", Int.MAX_VALUE, 0, 0))))
+            Outfit(listOf(Item("best", Int.MAX_VALUE, 0, 0)))
+        )
         val worst = AtomicReference(
-                Outfit(listOf(Item("worst", Int.MIN_VALUE, 0, 0))))
+            Outfit(listOf(Item("worst", Int.MIN_VALUE, 0, 0)))
+        )
         for (weapon in shop.weapons) {
             for (armor in shop.armor) {
                 evaluate(Outfit(listOf(weapon, armor)), best, worst)

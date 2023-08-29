@@ -1,6 +1,6 @@
 package org.base.advent.k2022
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import org.base.advent.TimeSaver
 import org.base.advent.k2022.Day14.Companion.AIR
 import org.base.advent.k2022.Day14.Companion.ROCK
@@ -13,16 +13,14 @@ import kotlin.math.min
 /**
  * <a href="https://adventofcode.com/2022/day/14">Day 14</a>
  */
-class Day14(altInput: List<String>? = null) : PuzzleReader, TimeSaver {
+class Day14 : PuzzleFunction<List<String>, Pair<Int, Int>>, TimeSaver {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val rocks = input.map { scanRocks(it) }
+        val cave1 = buildCave(rocks)
+        val cave2 = cave1.addFloor()
 
-    private val input = altInput ?: readLines("2022/input14.txt")
-    private val rocks = input.map { scanRocks(it) }
-    private val cave1 = buildCave(rocks)
-    private val cave2 = cave1.addFloor()
-
-    override fun solve1(): Any = pourSand(cave1)
-
-    override fun solve2(): Any = pourSand(cave2)
+        return pourSand(cave1) to pourSand(cave2)
+    }
 
     private fun pourSand(cave: Cave): Int {
         var sand = dropSand(cave)

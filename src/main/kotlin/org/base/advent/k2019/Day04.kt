@@ -1,19 +1,16 @@
 package org.base.advent.k2019
 
 import org.apache.commons.lang3.StringUtils
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 
 /**
  * <a href="https://adventofcode.com/2019/day/04">Day 04</a>
  */
-class Day04 : PuzzleReader {
-
-    private val input = 235741..706948
-    private val prefiltered = input.map { it.toString() }.filter { isOrdered(it) }
-
-    override fun solve1(): Any = prefiltered.count { hasAdjacent(it) }
-
-    override fun solve2(): Any = prefiltered.count { hasOnlyAdjacent(it) }
+class Day04 : PuzzleFunction<IntRange, Pair<Int, Int>> {
+    override fun apply(input: IntRange): Pair<Int, Int> {
+        val prefiltered = input.map { it.toString() }.filter { isOrdered(it) }
+        return prefiltered.count { hasAdjacent(it) } to prefiltered.count { hasOnlyAdjacent(it) }
+    }
 
     private fun hasAdjacent(code: String): Boolean = ADJACENT.matches(code)
 

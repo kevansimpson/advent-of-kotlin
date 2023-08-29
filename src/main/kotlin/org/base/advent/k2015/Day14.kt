@@ -1,31 +1,23 @@
 package org.base.advent.k2015
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import org.base.advent.TimeSaver
 
 /**
  * <a href="https://adventofcode.com/2015/day/14">Day 14</a>
  */
-class Day14 : PuzzleReader, TimeSaver {
-
-    private val input = readLines("2015/input14.txt")
-
-    override fun solve1(): Any = distanceTraveled
-
-    override fun solve2(): Any = winningPoints()
-
-    private val speedMap by lazy {
-        input.map { REGEX.matchEntire(it) }.associate {
-            val (name, kmPerSec, goTime, restTime) = it!!.destructured
-            Pair(name, Reindeer(kmPerSec.toInt(), goTime.toInt(), restTime.toInt()))
-        }
+class Day14 : PuzzleFunction<List<String>, Pair<Int, Int>>, TimeSaver {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val speedMap = input.map { REGEX.matchEntire(it) }
+            .associate {
+                val (name, kmPerSec, goTime, restTime) = it!!.destructured
+                Pair(name, Reindeer(kmPerSec.toInt(), goTime.toInt(), restTime.toInt()))
+            }
+        val distanceTraveled: Int = buildSnapshot(speedMap, 2503).toSortedMap().lastKey()
+        return distanceTraveled to winningPoints(speedMap)
     }
 
-    private val distanceTraveled: Int by lazy {
-        buildSnapshot(speedMap, 2503).toSortedMap().lastKey()
-    }
-
-    private fun winningPoints(): Int {
+    private fun winningPoints(speedMap: Map<String, Reindeer>): Int {
         val pointMap = mutableMapOf<String, Int>()
         (1 until 2504).map { identifyWinner(speedMap, it) }.forEach { winners ->
             winners.forEach { w -> pointMap[w] = (pointMap[w] ?: 0) + 1 }

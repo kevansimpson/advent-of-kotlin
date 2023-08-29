@@ -1,21 +1,17 @@
 package org.base.advent.k2022
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 
 /**
  * <a href="https://adventofcode.com/2022/day/01">Day 01</a>
  */
-class Day01 : PuzzleReader {
-
-    private val input = readLines("2022/input01.txt")
-            .fold(mutableListOf(mutableListOf<String>())) { acc, line ->
-                if (line.isNotBlank()) acc.last().add(line) else acc.add(mutableListOf())
+class Day01 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val chunked = input.fold(mutableListOf(mutableListOf<String>())) { acc, line ->
+            if (line.isNotBlank()) acc.last().add(line) else acc.add(mutableListOf())
                 acc
+            }.map { it.sumOf { i -> i.toInt() } }
+
+        return chunked.max() to chunked.sortedDescending().take(3).sum()
     }
-
-    private val chunked by lazy { input.map { it.sumOf { i -> i.toInt() } } }
-
-    override fun solve1(): Any = chunked.maxOrNull() ?: 1138
-
-    override fun solve2(): Any = chunked.sortedDescending().take(3).sum()
 }

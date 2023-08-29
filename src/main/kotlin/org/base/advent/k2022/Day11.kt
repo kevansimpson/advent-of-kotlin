@@ -1,24 +1,20 @@
 package org.base.advent.k2022
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 import org.base.advent.util.Extensions.extractInt
-import java.lang.IllegalStateException
 import java.util.concurrent.atomic.AtomicLong
 
 /**
  * <a href="https://adventofcode.com/2022/day/11">Day 11</a>
  */
-class Day11 : PuzzleReader {
-
-    private val input = readLines("2022/input11.txt")
-
-    override fun solve1(): Any =
+class Day11 : PuzzleSolver<List<String>> {
+    override fun solve1(input: List<String>): Any =
         with (takeMonkeyNotes(input)) {
             play20Rounds(this)
             mostActive(this)
         }
 
-    override fun solve2(): Any =
+    override fun solve2(input: List<String>): Any =
         with (takeMonkeyNotes(input)) {
             (1..10000).forEach { _ ->
                 this.forEach { m -> quickMonkey(m, this) }

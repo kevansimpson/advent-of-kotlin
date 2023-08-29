@@ -1,9 +1,10 @@
 package org.base.advent.k2022
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import org.base.advent.TimeSaver
 import org.base.advent.util.Extensions.extractInt
 import java.util.*
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.collections.*
 import kotlin.math.truncate
@@ -13,26 +14,24 @@ import kotlin.math.truncate
  * <br/>
  * s/o <a href="https://github.com/frhel/AdventOfCode/blob/master/2022/day_16/js/index.js"/>
  */
-class Day16(private val qualifier: String = "") : PuzzleReader, TimeSaver {
-
-    private val input = readLines("2022/input16$qualifier.txt")
-    private val valves = input.map { scanCave(it) }
-    private val valveMap = valves.associateBy { it.name }
-    init {
+class Day16 : PuzzleFunction<List<String>, Pair<Int, Int>>, TimeSaver {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val valves = input.map { scanCave(it) }
+        val valveMap = valves.associateBy { it.name }
         valves.forEach { it.edges = shortestPaths(valveMap, it.name) }
+
+        val importantValves = valveMap.filter { it.value.flowRate > 0 || it.value.name == "AA" }
+        val pool = Executors.newFixedThreadPool(if (input.size == 10) 2 else 25)
+
+        val elephant =
+            // always full solve for unit test
+            if (input.size == 10) mostElephantPath(importantValves, pool)
+            // part 2 takes over 3 seconds
+            else fastOrFull(2594) { mostElephantPath(importantValves, pool) }
+        return mostEfficientPath(importantValves) to elephant
     }
-    private val importantValves = valveMap.filter { it.value.flowRate > 0 || it.value.name == "AA" }
-    private val pool = Executors.newFixedThreadPool(if (qualifier.isNotEmpty()) 2 else 25)
-
-    override fun solve1(): Any = mostEfficientPath(importantValves)
-
-    override fun solve2(): Any =
-        // always full solve for unit test
-        if (qualifier.isNotEmpty()) mostElephantPath(importantValves)
-        // part 2 takes over 3 seconds
-        else fastOrFull(2594) { mostElephantPath(importantValves) }
-
     private fun mostElephantPath(valveMap: Map<String, Valve>,
+                                 pool: ExecutorService,
                                  start: String = "AA",
                                  duration: Int = 26): Int =
         with (mutableListOf<Int>()) {

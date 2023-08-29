@@ -3,24 +3,31 @@ package org.base.advent
 import org.apache.commons.lang3.BooleanUtils
 import java.nio.file.Files
 import java.nio.file.Path
+import java.util.function.Supplier
 
-interface PuzzleSolver {
+interface Named {
     val name: String
         get() = this::class.java.simpleName
-
-    fun solve1(): Any
-    fun solve2(): Any
+}
+interface PuzzleSolver<T> : Named {
+    fun solve1(input: T): Any
+    fun solve2(input: T): Any
 }
 
-interface PuzzleReader : PuzzleSolver {
+interface PuzzleFunction<T, R> : java.util.function.Function<T, R>, Named
+interface PuzzleSupplier<T> : Supplier<T>, Named
+
+interface PuzzleReader {
     val root: Path
         get() = Path.of("src", "test", "resources")
+
+    fun readIntLines(input: String): List<Int> = readLines(input).map { it.toInt() }
 
     fun readLines(input: String): List<String> = Files.readAllLines(root.resolve(input))
 
     fun readSingleLine(input: String): String = Files.readString(root.resolve(input))
 
-    fun String.csv(): List<String> = this.split(",")
+    fun String.csv(delims: String = ","): List<String> = this.split(delims)
 
     fun String.csvToInt(): List<Int> = this.csv().map { it.toInt() }
 }

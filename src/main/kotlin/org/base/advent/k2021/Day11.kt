@@ -1,38 +1,34 @@
 package org.base.advent.k2021
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 import org.base.advent.TimeSaver
+import org.base.advent.util.Extensions.toward
 import org.base.advent.util.Point
 import org.base.advent.util.Point.Companion.inGrid
-import org.base.advent.util.Extensions.toward
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * <a href="https://adventofcode.com/2021/day/11">Day 11</a>
  */
-class Day11 : PuzzleReader, TimeSaver {
+class Day11 : PuzzleSolver<List<String>>, TimeSaver {
+    override fun solve1(input: List<String>): Any = octopusFlashing(input, toGrid(input))
 
-    private val input = readLines("2021/input11.txt")
+    override fun solve2(input: List<String>): Any = octopusFlashing(input, toGrid(input), 250)
 
-    override fun solve1(): Any = octopusFlashing()
-
-    override fun solve2(): Any = octopusFlashing(250)
-
-    private val grid by lazy {
+    private fun toGrid(input: List<String>): Map<Point, Int> =
         input.indices.fold(mutableMapOf<Point, Int>()) { map, y ->
             input[y].forEachIndexed { x, ch -> map[Point(x, y)] = ch.digitToInt() }
             map
         }.toMap()
-    }
 
-    private fun toEnergyArray(): Array<MutableList<Point>> =
+    private fun toEnergyArray(input: List<String>, grid: Map<Point, Int>): Array<MutableList<Point>> =
             grid.entries.fold(Array(input.size) { mutableListOf() }) { arr, entry ->
                 arr[entry.value].add(entry.key)
                 arr
             }
 
-    private fun octopusFlashing(steps: Int = 100): Int {
-        val octopus = toEnergyArray()
+    private fun octopusFlashing(input: List<String>, grid: Map<Point, Int>, steps: Int = 100): Int {
+        val octopus = toEnergyArray(input, grid)
         if (fullSolve) display(octopus)
         val flashCount = AtomicInteger(0)
 

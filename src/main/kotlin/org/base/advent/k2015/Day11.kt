@@ -1,19 +1,15 @@
 package org.base.advent.k2015
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 
 /**
  * <a href="https://adventofcode.com/2015/day/11">Day 11</a>
  */
-class Day11 : PuzzleReader {
-
-    private val input = "vzbxkghb"
-
-    override fun solve1(): Any = first
-
-    override fun solve2(): Any = nextValidPassword(first)
-
-    private val first by lazy { nextValidPassword(input) }
+class Day11 : PuzzleFunction<String, Pair<String, String>> {
+    override fun apply(input: String): Pair<String, String> {
+        val first = nextValidPassword(input)
+        return first to nextValidPassword(first)
+    }
 
     private fun nextValidPassword(str: String): String {
         var next = nextPassword(str)

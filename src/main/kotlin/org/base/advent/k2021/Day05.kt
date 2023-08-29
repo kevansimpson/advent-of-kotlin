@@ -1,31 +1,22 @@
 package org.base.advent.k2021
 
-import org.base.advent.PuzzleReader
-import org.base.advent.util.Point
+import org.base.advent.PuzzleFunction
 import org.base.advent.util.Extensions.toward
+import org.base.advent.util.Point
 
 /**
  * <a href="https://adventofcode.com/2021/day/5">Day 5</a>
  */
-class Day05 : PuzzleReader {
+class Day05 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val ventLines = input.map { REGEX.matchEntire(it) }
+            .map {
+                val (x1, y1, x2, y2) = it!!.destructured
+                Point(x1.toLong(), y1.toLong()) to Point(x2.toLong(), y2.toLong())
+            }
+        val horizVertLines = ventLines.filter { it.first.x == it.second.x || it.first.y == it.second.y }
 
-    private val input = readLines("2021/input05.txt")
-
-    override fun solve1(): Any = avoidDanger(drawLines(horizVertLines))
-
-    override fun solve2(): Any = avoidDanger(drawLines(ventLines))
-
-    private val ventLines by lazy {
-        input.map { REGEX.matchEntire(it) }.map {
-            val (x1, y1, x2, y2) = it!!.destructured
-            Point(x1.toLong(), y1.toLong()) to Point(x2.toLong(), y2.toLong())
-        }
-    }
-
-    private val horizVertLines by lazy {
-        ventLines.filter {
-            it.first.x == it.second.x || it.first.y == it.second.y
-        }
+        return avoidDanger(drawLines(horizVertLines)) to avoidDanger(drawLines(ventLines))
     }
 
     private fun drawLines(lines: List<Pair<Point, Point>>): Map<Point, Int> =

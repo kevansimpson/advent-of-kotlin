@@ -1,20 +1,18 @@
 package org.base.advent.k2015
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import org.base.advent.util.Permutations.permutations
 
 /**
  * <a href="https://adventofcode.com/2015/day/9">Day 9</a>
  */
-class Day09 : PuzzleReader {
+class Day09 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val santa = animatronicSanta(input)
+        return with (santa.distanceMap.values) { min() to max() }
+    }
 
-    private val input = readLines("2015/input09.txt")
-
-    override fun solve1(): Any = santa.distanceMap.values.minOrNull() ?: -1
-
-    override fun solve2(): Any = santa.distanceMap.values.maxOrNull() ?: -1
-
-    private val santa by lazy {
+    private fun animatronicSanta(input: List<String>): Santa {
         val locations: MutableSet<String> = mutableSetOf()
         val jumps: MutableMap<Pair<String, String>, Int> = mutableMapOf()
         input.map { REGEX.matchEntire(it) }
@@ -31,7 +29,7 @@ class Day09 : PuzzleReader {
             distanceMap[list.toString()] = calculateDistance(list, jumps)
         }
 
-        Santa(locations, jumps, distanceMap)
+        return Santa(locations, jumps, distanceMap)
     }
 
     private fun calculateDistance(path: List<String>, jumps: Map<Pair<String, String>, Int>): Int =

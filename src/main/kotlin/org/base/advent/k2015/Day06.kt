@@ -1,18 +1,20 @@
 package org.base.advent.k2015
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import org.base.advent.util.Point
 
 /**
  * <a href="https://adventofcode.com/2015/day/6">Day 6</a>
  */
-class Day06 : PuzzleReader {
-
-    private val input = readLines("2015/input06.txt")
-
-    override fun solve1(): Any = flipLights(lightGrid, lightsOn)
-
-    override fun solve2(): Any = flipLights(lightGrid, totalBrightness)
+class Day06 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val lightGrid = input.map { REGEX.matchEntire(it) }
+            .map {
+                val (cmd, pt1, pt2) = it!!.destructured
+                LightCmd(cmd, toPoint(pt1), toPoint(pt2))
+            }
+        return flipLights(lightGrid, lightsOn) to flipLights(lightGrid, totalBrightness)
+    }
 
     private fun flipLights(list: List<LightCmd>,
                            cmdMap: Map<String, (Int) -> Int>): Int {
@@ -35,14 +37,6 @@ class Day06 : PuzzleReader {
             Pair("toggle") { value: Int -> value + 2 },
             Pair("turn on") { value: Int -> value + 1 },
             Pair("turn off") { value: Int -> (value - 1).coerceAtLeast(0) })
-
-    private val lightGrid by lazy {
-        input.map { REGEX.matchEntire(it) }
-                .map {
-                    val (cmd, pt1, pt2) = it!!.destructured
-                    LightCmd(cmd, toPoint(pt1), toPoint(pt2))
-                }
-    }
 
     private fun toPoint(str: String): Point {
         val pair = str.split(",")

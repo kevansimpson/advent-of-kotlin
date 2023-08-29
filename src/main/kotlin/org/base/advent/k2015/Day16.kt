@@ -1,31 +1,22 @@
 package org.base.advent.k2015
 
 import org.apache.commons.lang3.ObjectUtils
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import java.util.*
 
 /**
  * <a href="https://adventofcode.com/2015/day/16">Day 16</a>
  */
-class Day16 : PuzzleReader {
+class Day16 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    private val tickerTape = mapOf("children" to 3, "cats" to 7, "samoyeds" to 2, "pomeranians" to 3,
+        "akitas" to 0, "vizslas" to 0, "goldfish" to 5, "trees" to 3, "cars" to 2, "perfumes" to 1)
 
-    private val input = readLines("2015/input16.txt")
-
-    override fun solve1(): Any = auntSueIndex
-
-    override fun solve2(): Any = outdatedRetroencabulator
-
-    private val tickerTape = mapOf("children" to 3, "cats" to 7, "samoyeds" to 2, "pomeranians" to 3, "akitas" to 0,
-            "vizslas" to 0, "goldfish" to 5, "trees" to 3, "cars" to 2, "perfumes" to 1)
-
-    private val auntSueList by lazy { input.map { parseSue(it) } }
-
-    private val auntSueIndex by lazy {
-        auntSueList.first { hasSameAttr(tickerTape, it) }.getOrDefault(INDEX, -1)
-    }
-
-    private val outdatedRetroencabulator by lazy {
-        auntSueList.first { hasSameRanges(tickerTape, it) }.getOrDefault(INDEX, -1)
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val auntSueList = input.map { parseSue(it) }
+        val auntSueIndex = auntSueList.first { hasSameAttr(tickerTape, it) }.getOrDefault(INDEX, -1)
+        val outdatedRetroencabulator =
+            auntSueList.first { hasSameRanges(tickerTape, it) }.getOrDefault(INDEX, -1)
+        return auntSueIndex to outdatedRetroencabulator
     }
 
     private fun hasSameRanges(attr1: Sue, attr2: Sue): Boolean =

@@ -1,45 +1,30 @@
 package org.base.advent.k2021
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import org.base.advent.util.Text
 import java.util.*
 
 /**
  * <a href="https://adventofcode.com/2021/day/3">Day 3</a>
  */
-class Day03 : PuzzleReader {
-
-    private val input = readLines("2021/input03.txt")
-
-    override fun solve1(): Any = epsilon.toLong(2) * gamma.toLong(2)
-
-    override fun solve2(): Any = oxygenGenerator.toLong(2) * co2scrubber.toLong(2)
-
-    private val columns by lazy { Text.columns(input) }
-    private val columnCounts by lazy { Text.columnCounts(columns) }
-
-    private val columnCountsDescending by lazy {
-        columnCounts.map { it.entries.sortedByDescending { kv -> kv.value } }
+class Day03 : PuzzleFunction<List<String>, Pair<Long, Long>> {
+    override fun apply(input: List<String>): Pair<Long, Long> {
+        val columns = Text.columns(input)
+        val columnCounts = Text.columnCounts(columns)
+        val columnCountsDescending = columnCounts.map { it.entries.sortedByDescending { kv -> kv.value } }
+        val columnCountsAscending = columnCounts.map { it.entries.sortedBy { kv -> kv.value } }
+        val gamma = extract(columnCountsAscending)    // 101110111100
+        val epsilon = extract(columnCountsDescending) // 010001000011
+        val oxygenGenerator = lifeSupport(input, '1') { map -> map.toSortedMap(compareByDescending { map[it] }) }
+        val co2scrubber = lifeSupport(input, '0') { map -> map.toSortedMap(compareBy { map[it] }) }
+        return (epsilon.toLong(2) * gamma.toLong(2)) to
+                (oxygenGenerator.toLong(2) * co2scrubber.toLong(2))
     }
-
-    private val columnCountsAscending by lazy {
-        columnCounts.map { it.entries.sortedBy { kv -> kv.value } }
-    }
-
-    private val gamma by lazy { extract(columnCountsAscending) }    // 101110111100
-
-    private val epsilon by lazy { extract(columnCountsDescending) } // 010001000011
-
     private fun extract(list: List<List<Map.Entry<String, Int>>>): String =
             list.joinToString("") { it.first().key }
 
-    private val oxygenGenerator by lazy { lifeSupport('1') { map ->
-        map.toSortedMap(compareByDescending { map[it] }) } }
 
-    private val co2scrubber by lazy { lifeSupport('0') { map ->
-        map.toSortedMap(compareBy { map[it] }) } }
-
-    private fun lifeSupport(bit: Char, fxn: (Map<String, Int>) -> SortedMap<String, Int>): String {
+    private fun lifeSupport(input: List<String>, bit: Char, fxn: (Map<String, Int>) -> SortedMap<String, Int>): String {
         var list = input
         run santa@ {
             input[0].indices.forEach { index ->

@@ -1,6 +1,6 @@
 package org.base.advent.k2022
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 import org.base.advent.TimeSaver
 import org.base.advent.util.Point
 import java.util.function.Function
@@ -9,13 +9,10 @@ import kotlin.math.max
 /**
  * <a href="https://adventofcode.com/2022/day/17">Day 17</a>
  */
-class Day17 : PuzzleReader, TimeSaver {
+class Day17 : PuzzleSolver<String>, TimeSaver {
+    override fun solve1(input: String): Any = fastOrFull(3124L) { dropRocks(Cavern(input), 2022L) }
 
-    private val input = readSingleLine("2022/input17.txt")
-
-    override fun solve1(): Any = fastOrFull(3124L) { dropRocks(Cavern(input), 2022L) }
-
-    override fun solve2(): Any = fastOrFull(1561176470569L) { dropRocks(Cavern(input), 1000000000000L) }
+    override fun solve2(input: String): Any = fastOrFull(1561176470569L) { dropRocks(Cavern(input), 1000000000000L) }
 
     private fun dropRocks(cavern: Cavern, rockCount: Long): Long {
         val history = RockHistory(cavern)

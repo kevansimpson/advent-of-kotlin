@@ -1,6 +1,6 @@
 package org.base.advent.k2021
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 import org.base.advent.util.Point
 import org.base.advent.util.Point.Companion.inGrid
 import java.util.*
@@ -10,26 +10,24 @@ import java.util.*
  *
  * h/t <a href="https://github.com/PhenixFine/advent-of-code-kotlin-2021/blob/main/src/Day15.kt"/>
  */
-class Day15 : PuzzleReader {
-
-    private val input = readLines("2021/input15.txt")
-
-    override fun solve1(): Any = safestPath(sampleCave)
-
-    override fun solve2(): Any = safestPath(fullCave)
-
-    private val sampleCave by lazy {
-        input.mapIndexed { x, line -> line.map { it.digitToInt() }.mapIndexed { y, num -> Risk(Point(x, y), num) } }
+class Day15 : PuzzleSolver<List<String>> {
+    override fun solve1(input: List<String>): Any {
+        val sampleCave = input
+            .mapIndexed { x, line -> line.map { it.digitToInt() }.mapIndexed { y, num -> Risk(Point(x, y), num) } }
+        return safestPath(sampleCave)
     }
 
-    private val fullCave by lazy {
-        val list = input.map { expand(it) }.toMutableList()
-        val size = list.size
-        repeat(4) {
-            val next = if (list.size > size) list.drop(list.size - size) else list.toList()
-            next.forEach { list.add(it.map { num -> transform(num) }) }
+    override fun solve2(input: List<String>): Any {
+        val fullCave by lazy {
+            val list = input.map { expand(it) }.toMutableList()
+            val size = list.size
+            repeat(4) {
+                val next = if (list.size > size) list.drop(list.size - size) else list.toList()
+                next.forEach { list.add(it.map { num -> transform(num) }) }
+            }
+            list.mapIndexed { x, line -> line.mapIndexed { y, num -> Risk(Point(x, y), num) } }
         }
-        list.mapIndexed { x, line -> line.mapIndexed { y, num -> Risk(Point(x, y), num) } }
+        return safestPath(fullCave)
     }
 
     private fun safestPath(cave: List<List<Risk>>): Int {

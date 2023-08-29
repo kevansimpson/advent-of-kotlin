@@ -1,6 +1,6 @@
 package org.base.advent.k2022
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import org.base.advent.TimeSaver
 import org.base.advent.util.Node.Companion.createRootNode
 import org.base.advent.util.NodeDepthMap
@@ -10,19 +10,16 @@ import org.base.advent.util.Point.Companion.inGrid
 /**
  * <a href="https://adventofcode.com/2022/day/12">Day 12</a>
  */
-class Day12 : PuzzleReader, TimeSaver {
+class Day12 : PuzzleFunction<List<String>, Pair<Long, Long>>, TimeSaver {
+    override fun apply(input: List<String>): Pair<Long, Long> {
+        val localArea = hill(input).also {
+            if (fullSolve) it.graph()
+            debug("${it.start} --> ${it.peak}")
+        }
 
-    private val input = readLines("2022/input12.txt")
-    private val localArea = hill(input).also {
-        if (fullSolve)
-            it.graph()
-        debug("${it.start} --> ${it.peak}")
+        return climb(localArea) to
+                localArea.heightmap.filterValues { it == 'a' }.keys.minOf { climb(hill(input).copy(start = it)) }
     }
-
-    override fun solve1(): Any = climb(localArea)
-
-    override fun solve2(): Any =
-        localArea.heightmap.filterValues { it == 'a' }.keys.minOf { climb(hill(input).copy(start = it)) }
 
     private fun climb(hill: Hill): Long {
         val nodes = mutableListOf(createRootNode(hill.start))

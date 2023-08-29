@@ -5,24 +5,21 @@ import org.base.advent.PuzzleSolver
 /**
  * <a href="https://adventofcode.com/2015/day/20">Day 20</a>
  */
-class Day20 : PuzzleSolver {
+class Day20 : PuzzleSolver<Int> {
+    override fun solve1(input: Int): Any = lowestHouse(input)
 
-    private val input = 34000000
+    override fun solve2(input: Int): Any = lowestHouseNewRules(input)
 
-    override fun solve1(): Any = lowestHouse()
-
-    override fun solve2(): Any = lowestHouseNewRules()
-
-    private fun lowestHouse(): Int {
+    private fun lowestHouse(input: Int): Int {
         val houses = IntArray(MAX) { 0 }
         for (elf in 1 until MAX)
             for (v in elf until MAX step elf)
                 houses[v] += elf * 10
 
-        return targetHouse(houses)
+        return targetHouse(input, houses)
     }
 
-    private fun lowestHouseNewRules(): Int {
+    private fun lowestHouseNewRules(input: Int): Int {
         val houses = IntArray(MAX) { 0 }
 
         for (elf in 1 until MAX) {
@@ -35,10 +32,10 @@ class Day20 : PuzzleSolver {
                 }
             }
         }
-        return targetHouse(houses)
+        return targetHouse(input, houses)
     }
 
-    private fun targetHouse(houses: IntArray): Int {
+    private fun targetHouse(input: Int, houses: IntArray): Int {
         var answer = 0
         run santa@ {
             for (i in 0 until MAX)

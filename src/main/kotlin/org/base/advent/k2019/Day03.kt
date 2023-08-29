@@ -1,24 +1,24 @@
 package org.base.advent.k2019
 
+import org.base.advent.PuzzleFunction
 import org.base.advent.PuzzleReader
 import org.base.advent.util.Point
 
 /**
  * <a href="https://adventofcode.com/2019/day/03">Day 03</a>
  */
-class Day03 : PuzzleReader {
+class Day03 : PuzzleFunction<List<String>, Pair<Long, Long>>, PuzzleReader {
+    override fun apply(input: List<String>): Pair<Long, Long> {
+        val lol = input.map { it.csv() }
+        val untangled = untangle(lol)
+        val localStepsAt = fun(point: Point): Long = this.stepsAt(untangled, point)
+        return analyze(untangled, Point::manhattanDistance) to analyze(untangled, localStepsAt)
+    }
 
-    private val input = readLines("2019/input03.txt").map { it.csv() }
-    private val untangled by lazy { untangle(input) }
+    private fun analyze(untangled: Pair<WirePath, WirePath>, fxn: (Point) -> Long): Long =
+        untangled.first.path.toSet().intersect(untangled.second.path.toSet()).minOfOrNull(fxn)?.toLong() ?: -1L
 
-    override fun solve1(): Any = analyze(Point::manhattanDistance)
-
-    override fun solve2(): Any = analyze(this::stepsAt)
-
-    private fun analyze(fxn: (Point) -> Long): Long =
-            untangled.first.path.toSet().intersect(untangled.second.path.toSet()).map(fxn).minOrNull()?.toLong() ?: -1L
-
-    private fun stepsAt(point: Point): Long =
+    private fun stepsAt(untangled: Pair<WirePath, WirePath>, point: Point): Long =
             untangled.toList().sumOf { it.steps.getOrDefault(point, 0) }.toLong()
 
     private fun untangle(jumbles: List<List<String>>): Pair<WirePath, WirePath> =

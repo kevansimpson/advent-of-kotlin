@@ -1,7 +1,7 @@
 package org.base.advent.k2015
 
 import org.apache.commons.lang3.StringUtils
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 import org.base.advent.util.Extensions.extractInt
 import org.json.JSONArray
 import org.json.JSONObject
@@ -9,13 +9,10 @@ import org.json.JSONObject
 /**
  * <a href="https://adventofcode.com/2015/day/12">Day 12</a>
  */
-class Day12 : PuzzleReader {
+class Day12 : PuzzleSolver<String> {
+    override fun solve1(input: String): Any = sumNumbers(input)
 
-    private val input = readSingleLine("2015/input12.txt")
-
-    override fun solve1(): Any = sumNumbers(input)
-
-    override fun solve2(): Any = sumJson(JSONObject(input))
+    override fun solve2(input: String): Any = sumJson(JSONObject(input))
 
     private fun sumNumbers(str: String) = str.extractInt().sum()
 

@@ -1,31 +1,25 @@
 package org.base.advent.k2021
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import org.base.advent.TimeSaver
 import kotlin.math.max
 
 /**
  * <a href="https://adventofcode.com/2021/day/18">Day 18</a>
  */
-class Day18 : PuzzleReader, TimeSaver {
+class Day18 : PuzzleFunction<List<String>, Pair<Int, Int>>, TimeSaver {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val snailFish = input.map { parseFish(it, mutableMapOf()) }
+        val rootSnailFish =
+            snailFish.drop(1).fold(reduceFish(snailFish.first())) { sum, fish -> reduceFish(PairFish(sum, fish)) }
+        val maxMagnitudeSnailFish =
+            parseFish("[[[[9,8],[9,8]],[[8,8],[7,8]]],[[[8,8],[7,8]],[[8,0],[8,7]]]]", mutableMapOf()).magnitude()
+        val maxMagnitude = if (fullSolve) maxMagnitude(input, snailFish) else maxMagnitudeSnailFish
 
-    private val input = readLines("2021/input18.txt")
-
-    override fun solve1(): Any = rootSnailFish.magnitude()
-
-    override fun solve2(): Any = if (fullSolve) maxMagnitude() else maxMagnitudeSnailFish
-
-    private val snailFish by lazy { input.map { parseFish(it, mutableMapOf()) } }
-
-    private val rootSnailFish by lazy {
-        snailFish.drop(1).fold(reduceFish(snailFish.first())) { sum, fish -> reduceFish(PairFish(sum, fish)) }
+        return rootSnailFish.magnitude() to maxMagnitude
     }
 
-    private val maxMagnitudeSnailFish by lazy {
-        parseFish("[[[[9,8],[9,8]],[[8,8],[7,8]]],[[[8,8],[7,8]],[[8,0],[8,7]]]]", mutableMapOf()).magnitude()
-    }
-
-    private fun maxMagnitude(): Int {
+    private fun maxMagnitude(input: List<String>, snailFish: List<SnailFish>): Int {
         var magnitude = 0
         for (i in snailFish.indices) {
             for (j in snailFish.indices) {

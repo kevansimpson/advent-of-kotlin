@@ -1,6 +1,6 @@
 package org.base.advent.k2022
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -8,29 +8,29 @@ import java.util.concurrent.atomic.AtomicInteger
  * <a href="https://adventofcode.com/2022/day/13">Day 13</a>
  */
 @Suppress("UNCHECKED_CAST")
-class Day13(qualifier: String = "") : PuzzleReader {
+class Day13 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val nested = input.filter { it.isNotBlank() }.map { parse(it) }
 
-    private val input = readLines("2022/input13$qualifier.txt")
-    private val nested = input.filter { it.isNotBlank() }.map { parse(it) }
+        val indicesSum = with(AtomicInteger(0)) {
+                val stack = nested.toMutableList()
+                for (i in 0 until stack.indices.max() step 2) {
+                    if (compareValues(stack[i], stack[i + 1]) < 0)
+                        addAndGet((i + 2) / 2)
+                }
 
-    override fun solve1(): Any =
-        with (AtomicInteger(0)) {
-            val stack = nested.toMutableList()
-            for (i in 0 until stack.indices.max() step 2) {
-                if (compareValues(stack[i], stack[i + 1]) < 0)
-                    addAndGet((i + 2) / 2)
+                get()
+            }
+        val decoderKey =
+            with(PART2_SIGNALS.map { parse(it) }.plus(nested)) {
+                val sorted = this.sortedWith { a, b -> compareValues(a, b) }.map { it.toString() }
+                val ix1 = sorted.indexOf("[[2]]") + 1
+                val ix2 = sorted.indexOf("[[6]]") + 1
+                ix1 * ix2
             }
 
-            get()
-        }
-
-    override fun solve2(): Any =
-        with (PART2_SIGNALS.map { parse(it) }.plus(nested)) {
-            val sorted = this.sortedWith { a, b -> compareValues(a, b) }.map { it.toString() }
-            val ix1 = sorted.indexOf("[[2]]") + 1
-            val ix2 = sorted.indexOf("[[6]]") + 1
-            ix1 * ix2
-        }
+        return indicesSum to decoderKey
+    }
 
     fun compareValues(left: List<Any>, right: List<Any>): Int {
         val lit = left.iterator()

@@ -1,30 +1,31 @@
 package org.base.advent.k2015
 
 import org.apache.commons.lang3.StringUtils
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 
 /**
  * <a href="https://adventofcode.com/2015/day/19">Day 19</a>
  */
-class Day19 : PuzzleReader {
-
-    private val input = readLines("2015/input19.txt")
-
-    override fun solve1(): Any = applyAllReplacements().size
-
-    override fun solve2(): Any = shortestPath
-
-    private val replacements by lazy { input.dropLast(1) }
-    private val medicine by lazy { input.last() }
-
-    private val shortestPath by lazy {
-        medicine.toCharArray().count { Character.isUpperCase(it) } -
+class Day19 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val replacements = input.dropLast(1)
+        val replacementMap = replacements.filter { StringUtils.isNotBlank(it) }
+                .map { it.split("\\s".toRegex()) }
+                .fold(mutableMapOf<String, List<String>>()) { map, tokens ->
+                    map[tokens[0]] = (map[tokens[0]] ?: listOf()) + listOf(tokens[2])
+                    map
+                }.mapValues { it.value.toList() }
+        val medicine = input.last()
+        val shortestPath = medicine.toCharArray().count {
+            Character.isUpperCase(it) } -
                 StringUtils.countMatches(medicine, "Rn") -
                 StringUtils.countMatches(medicine, "Ar") -
                 2 * StringUtils.countMatches(medicine, "Y") - 1
+
+        return applyAllReplacements(replacementMap, medicine).size to shortestPath
     }
 
-    private fun applyAllReplacements(): Set<String> =
+    private fun applyAllReplacements(replacementMap: Map<String, List<String>>, medicine: String): Set<String> =
             replacementMap.entries.fold(setOf()) { molecules, entry ->
                 molecules + applyReplacement(medicine, entry)
             }
@@ -48,12 +49,4 @@ class Day19 : PuzzleReader {
         return unique
     }
 
-    private val replacementMap by lazy {
-        replacements.filter { StringUtils.isNotBlank(it) }
-                .map { it.split("\\s".toRegex()) }
-                .fold(mutableMapOf<String, List<String>>()) { map, tokens ->
-                    map[tokens[0]] = (map[tokens[0]] ?: listOf()) + listOf(tokens[2])
-                    map
-                }.mapValues { it.value.toList() }
-    }
 }

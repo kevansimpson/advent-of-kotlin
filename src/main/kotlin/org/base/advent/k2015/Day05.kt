@@ -1,20 +1,17 @@
 package org.base.advent.k2015
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 
 /**
  * <a href="https://adventofcode.com/2015/day/5">Day 5</a>
  */
-class Day05 : PuzzleReader {
-
-    private val input = readLines("2015/input05.txt")
-
-    override fun solve1(): Any =
+class Day05 : PuzzleSolver<List<String>> {
+    override fun solve1(input: List<String>): Any =
         input.count { VOWELS.findAll(it).count() >= 3 &&
                       DOUBLE_LETTERS.findAll(it).count() >= 1 &&
                       BAD_STRINGS.findAll(it).count() <= 0 }
 
-    override fun solve2(): Any =
+    override fun solve2(input: List<String>): Any =
             input.count { NON_OVERLAPPING_LETTER_PAIRS.findAll(it).count() >= 1 &&
                           SANDWICH_LETTERS.findAll(it).count() >= 1 }
 

@@ -1,19 +1,12 @@
 package org.base.advent.k2015
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 
 /**
  * <a href="https://adventofcode.com/2015/day/2">Day 2</a>
  */
-class Day02 : PuzzleReader {
-
-    private val input = readLines("2015/input02.txt")
-
-    override fun solve1(): Any = answer.first
-
-    override fun solve2(): Any = answer.second
-
-    private val answer: Pair<Int, Int> by lazy { wrapPresents(input) }
+class Day02 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+    override fun apply(input: List<String>): Pair<Int, Int> = wrapPresents(input)
 
     private fun wrapPresents(lines: List<String>): Pair<Int, Int> =
             lines.map { it.split("x").map { dim -> dim.toInt() }.sorted() }

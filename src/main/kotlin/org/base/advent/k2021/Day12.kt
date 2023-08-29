@@ -1,39 +1,31 @@
 package org.base.advent.k2021
 
 import org.apache.commons.lang3.StringUtils
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleFunction
 import org.base.advent.TimeSaver
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * <a href="https://adventofcode.com/2021/day/12">Day 12</a>
  */
-class Day12 : PuzzleReader, TimeSaver {
+class Day12 : PuzzleFunction<List<String>, Pair<Int, Int>>, TimeSaver {
+    override fun apply(input: List<String>): Pair<Int, Int> {
+        val caveMap = input
+            .map { it.split("-") }
+            .fold(mutableMapOf<String, MutableList<String>>()) { map, a2b ->
+                add(add(map, a2b[0], a2b[1]), a2b[1], a2b[0])
+            }
+            .filter { it.key != "end" }
+            .mapValues { e -> e.value.filter { cave -> cave != "start" } }
 
-    private val input = readLines("2021/input12.txt")
-//    private val input = listOf(
-//        "start-A",
-//        "start-b",
-//        "A-c",
-//        "A-b",
-//        "b-d",
-//        "A-end",
-//        "b-end")
+        val visited = paths(caveMap) { p, n -> p.visited().contains(n) }
 
-    override fun solve1(): Any = paths { p, n -> p.visited().contains(n) }
+        val notTwice = if (fullSolve) paths(caveMap) { p, n -> noVisitTwice(p, n) } else 96988
 
-    override fun solve2(): Any = if (fullSolve) paths { p, n -> noVisitTwice(p, n) } else 96988
-
-    private val caveMap by lazy {
-        input.map { it.split("-") }
-                .fold(mutableMapOf<String, MutableList<String>>()) { map, a2b ->
-            add(add(map, a2b[0], a2b[1]), a2b[1], a2b[0])
-        }.filter { it.key != "end" }
-                .mapValues { e -> e.value.filter { cave -> cave != "start" } }
+        return visited to notTwice
     }
-    // {start=[A, b], A=[c, b, end], b=[A, d, end], c=[A], d=[b]}
 
-    private fun paths(isNotValid: (Path, String) -> Boolean): Int {
+    private fun paths(caveMap: Map<String, List<String>>, isNotValid: (Path, String) -> Boolean): Int {
         val paths = AtomicInteger(0)
         var current = mutableListOf(Path(mutableListOf("start")))
         while (current.isNotEmpty()) {

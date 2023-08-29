@@ -1,18 +1,15 @@
 package org.base.advent.k2021
 
-import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleSolver
 import java.util.*
 
 /**
  * <a href="https://adventofcode.com/2021/day/10">Day 10</a>
  */
-class Day10 : PuzzleReader {
+class Day10 : PuzzleSolver<List<String>> {
+    override fun solve1(input: List<String>): Any = input.sumOf { evaluate(it) }
 
-    private val input = readLines("2021/input10.txt")
-
-    override fun solve1(): Any = input.sumOf { evaluate(it) }
-
-    override fun solve2(): Any = middle(input.filter { evaluate(it) == 0 }
+    override fun solve2(input: List<String>): Any = middle(input.filter { evaluate(it) == 0 }
             .map { scoreCompletion(it) }.sorted())
 
     private fun evaluate(line: String): Int {
