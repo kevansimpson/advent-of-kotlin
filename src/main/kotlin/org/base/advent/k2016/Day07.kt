@@ -7,7 +7,7 @@ import org.base.advent.PuzzleFunction
  */
 class Day07 : PuzzleFunction<List<String>, Pair<Int, Int>> {
     override fun apply(input: List<String>): Pair<Int, Int> {
-        val ipv7List = input.map { it.split("]").flatMap { s -> s.split("[") } }
+        val ipv7List = input.map { it.split("[\\[\\]]".toRegex()) }
         return ipv7List.count { supportsTLS(it) } to ipv7List.count { supportsSSL(it) }
     }
     private fun supportsTLS(ipv7: List<String>): Boolean =
@@ -27,9 +27,9 @@ class Day07 : PuzzleFunction<List<String>, Pair<Int, Int>> {
         }.filter { it.isNotEmpty() }.flatten()
 
         if (abaList.isNotEmpty()) {
-            val babList = abaList.map { "${it.second}${it.first}${it.second}" }
+            val babSet = abaList.map { "${it.second}${it.first}${it.second}" }.toSet()
             return (ipv7.filterIndexed { index, _ -> (index % 2) != 0 }
-                    .filter { babList.any { bab -> it.contains(bab) } }).isNotEmpty()
+                    .filter { babSet.any { bab -> it.contains(bab) } }).isNotEmpty()
         }
         return false
     }
