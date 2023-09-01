@@ -25,11 +25,12 @@ class Day10 : PuzzleFunction<List<String>, Pair<Int, Int>> {
 
         val bots = ConcurrentHashMap(initialBots)
         var targetBot = 0
-        while (bots.filter { it.value.size > 1 }.isNotEmpty()) {
+        while (bots.any { it.value.size > 1 }) {
             bots.forEach { bot ->
-                if (bots[bot.key]?.size == 2) {
+                if (bot.value?.size == 2) {
                     if (bot.value.containsAll(listOf(17, 61)))
                         targetBot = bot.key.removePrefix("bot").toInt()
+
                     val ab = bot.value.sorted()
                     bots[bot.key] = mutableListOf()
                     val instruction = instructions[bot.key]!!

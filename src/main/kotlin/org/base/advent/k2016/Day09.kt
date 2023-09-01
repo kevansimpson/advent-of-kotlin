@@ -12,41 +12,40 @@ class Day09 : PuzzleSolver<String> {
     override fun solve2(input: String): Any = decompress2(input)
 
     private fun decompress(data: String): Long {
-        val map = mutableListOf<Int>()
+        var length = 0L
         var start = 0
         var index = data.indexOf("(")
         while (index >= 0) {
-            map.add(index - start)
+            length += index - start
             val close = data.indexOf(")", index)
             val marker = data.substring(index + 1, close).split("x").map { it.toInt() }
-            map.add(marker[0] * marker[1]) // don't care what the repeated string is
+            length += marker[0] * marker[1]
             start = close + marker[0] + 1
             index = data.indexOf("(", start)
         }
-        map.add(data.substring(start).length)
 
-        return map.sumOf { it.toLong() }
+        return length + data.substring(start).length
     }
 
     private fun decompress2(data: String): Long {
-        val map = mutableListOf<Long>()
+        var length = 0L
         var start = 0
         var index = data.indexOf("(")
         while (index >= 0) {
-            map.add((index - start).toLong())
+            length += (index - start).toLong()
             val close = data.indexOf(")", index)
             val marker = data.substring(index + 1, close).split("x").map { it.toLong() }
             start = close + 1
             val repeated = data.substring(start, start + marker[0].toInt())
-            if (repeated.contains("("))
-                map.add(marker[1] * decompress2(repeated))
+            length += if (repeated.contains("("))
+                marker[1] * decompress2(repeated)
             else
-                map.add(marker[1] * marker[0])
+                marker[1] * marker[0]
+
             start += marker[0].toInt()
             index = data.indexOf("(", start)
         }
-        map.add(data.substring(start).length.toLong())
 
-        return map.sumOf { it }
+        return length + data.substring(start).length.toLong()
     }
 }
