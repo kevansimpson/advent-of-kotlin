@@ -30,6 +30,8 @@ interface PuzzleReader {
     fun String.csv(delims: String = ","): List<String> = this.split(delims)
 
     fun String.csvToInt(): List<Int> = this.csv().map { it.toInt() }
+
+    fun String.csvToLong(): List<Long> = this.csv().map { it.toLong() }
 }
 
 interface TimeSaver {
