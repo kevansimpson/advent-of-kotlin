@@ -45,6 +45,12 @@ class Solutions2019Test : PuzzleReader {
             readSingleLine("2019/input07.txt").csvToLong(), 75228L, 79846026L)
     }
 
+    @Test
+    fun day08() {
+        testSolutions(Day08(), readSingleLine("2019/input08.txt"), 1935,
+            "011001111010000100101000010010100001000010010100001000011100100001001010000100001000010000100101000010010100001000010010100000110010000111100110011110")
+    }
+
     companion object {
         @BeforeAll @JvmStatic
         fun header() {
