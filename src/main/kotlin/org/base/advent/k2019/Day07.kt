@@ -1,8 +1,8 @@
 package org.base.advent.k2019
 
 import org.base.advent.PuzzleSolver
+import org.base.advent.k2019.intCode.Channel.Companion.newChannel
 import org.base.advent.k2019.intCode.Program
-import org.base.advent.k2019.intCode.Program.Companion.newChannel
 import org.base.advent.util.Permutations.permutations
 import java.util.concurrent.Executors
 
@@ -31,7 +31,7 @@ class Day07 : PuzzleSolver<List<Long>> {
         Executors.newFixedThreadPool(5).use {
             amps.values.forEach { p -> it.execute(p) }
             // To start the process, a 0 signal is sent to amplifier A's input exactly once.
-            amps["A"]!!.input.sendOutput(0L)
+            amps["A"]!!.input.send(0L)
         }
 
         return amps["E"]?.output?.poll() ?: -1L
@@ -45,7 +45,7 @@ class Day07 : PuzzleSolver<List<Long>> {
             val de = newChannel(2, boosts[4])
             val outE = newChannel(2)
             val inA = if (feedback) outE else newChannel(2)
-            inA.sendOutput(boosts[0])
+            inA.send(boosts[0])
             this["A"] = Program(codes, inA, ab)
             this["B"] = Program(codes, ab, bc)
             this["C"] = Program(codes, bc, cd)

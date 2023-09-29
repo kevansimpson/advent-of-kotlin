@@ -1,64 +1,58 @@
 package org.base.advent.k2019.intCode
 
-import org.apache.commons.lang3.StringUtils.leftPad
-import java.lang.RuntimeException
-import java.util.concurrent.ArrayBlockingQueue
+import org.base.advent.k2019.intCode.Channel.Companion.newChannel
+import java.util.concurrent.CompletableFuture.runAsync
+import java.util.concurrent.Executors
 
 data class Program(val codes: List<Long>,
                    val input: Channel,
                    val output: Channel) : Runnable {
 
-    private var index = 0
+    internal var index = 0L
+    internal var relativeBase = 0L
     var name = "Program"
-    val result = codes.toMutableList()
-
-    operator fun get(index: Int) = result[index]
+    val result = codes.mapIndexed { index, c -> index.toLong() to c }.toMap().toMutableMap()
 
     override fun run() {
         do {
-            val fullOpCode = leftPad(result[index].toString(), 4, '0')
-            val p1 by lazy { param(fullOpCode, 1, 1) }
-            val p2 by lazy { param(fullOpCode, 0, 2) }
+            val params = Parameters(this)
 
-            when (fullOpCode.substring(2).toInt()) {
-                // add
-                1 -> assign(index + 3, p1 + p2).also { index += 4 }
-                // multiply
-                2 -> assign(index + 3, p1 * p2).also { index += 4 }
-                // input
-                3 -> assign(index + 1, input.acceptInput()).also { index += 2 }
-                // output
-                4 -> output.sendOutput(p1).also { index += 2 }
-                // jump if true
-                5 -> if (p1 != 0L) index = p2.toInt() else index += 3
-                // jump if false
-                6 -> if (p1 == 0L) index = p2.toInt() else index += 3
-                // less than
-                7 -> assign(index + 3, (if (p1 < p2) 1L else 0L)).also { index += 4 }
-                // equal to
-                8 -> assign(index + 3, (if (p1 == p2) 1L else 0L)).also { index += 4 }
+            when (params.opCode) {
+                1 -> assign(params.c3, params.a + params.b)               // add
+                2 -> assign(params.c3, params.a * params.b)               // multiply
+                3 -> assign(params.c1, input.accept())                          // input
+                4 -> output.send(params.a)                                      // output
+                5 -> params.jump(params.a != 0L, params.b)             // jump if true
+                6 -> params.jump(params.a == 0L, params.b)             // jump if false
+                7 -> assign(params.c3, if (params.a < params.b) 1L else 0L)     // less than
+                8 -> assign(params.c3, if (params.a == params.b) 1L else 0L)    // equal to
+                9 -> relativeBase += params.a                                   // adjust relativeBase
                 99 -> return
-                else -> throw IllegalStateException("$index -> $fullOpCode")
+                else -> throw IllegalStateException("$index -> ${params.fullOpCode}")
             }
-        } while (index != 99)
+            index = params.nextIndex()
+        } while (get(index) != 99L)
     }
 
-    private fun assign(index: Int, value: Long) {
-        result[result[index].toInt()] = value
+    private fun assign(index: Long, value: Long) {
+        result[index] = value
     }
 
-    private fun param(fullOpCode: String, opCodeIndex: Int, offset: Int): Long =
-        when (fullOpCode[opCodeIndex]) {
-            '0' -> result[result[index + offset].toInt()]
-            '1' -> result[index + offset]
-            else -> throw RuntimeException()
-        }
+    internal fun get(index: Long): Long = result[index] ?: 0L
 
     companion object {
         fun runProgram(input: List<Long>): Program =
             Program(input, newChannel(1), newChannel(1)).also { it.run() }
 
-        fun newChannel(capacity: Int, vararg values: Long): Channel =
-            Channel("", ArrayBlockingQueue(capacity)).also { values.forEach { v -> it.sendOutput(v) } }
+        fun boostProgram(codes: List<Long>, vararg signals: Long): Channel =
+            newChannel(100).apply {
+                val pool = Executors.newFixedThreadPool(1)
+                pool.use {
+                    val p = Program(codes, newChannel(10), this)
+                    val f = runAsync(p, pool)
+                    signals.forEach { p.input.send(it) }
+                    f.get()
+                }
+            }
     }
 }
