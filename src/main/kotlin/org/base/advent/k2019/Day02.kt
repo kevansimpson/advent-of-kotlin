@@ -1,14 +1,12 @@
 package org.base.advent.k2019
 
 import org.base.advent.PuzzleFunction
-import org.base.advent.PuzzleReader
 import org.base.advent.k2019.intCode.Program.Companion.runProgram
-import java.lang.RuntimeException
 
 /**
  * <a href="https://adventofcode.com/2019/day/02">Day 02</a>
  */
-class Day02 : PuzzleFunction<List<Long>, Pair<Long, Long>>, PuzzleReader {
+class Day02 : PuzzleFunction<List<Long>, Pair<Long, Long>> {
     override fun apply(input: List<Long>): Pair<Long, Long> {
         return gravityAssist(12, 2, input) to targetOutput(codes = input)
     }
