@@ -1,6 +1,7 @@
 package org.base.advent.k2021
 
 import org.base.advent.PuzzleFunction
+import org.base.advent.util.Grid.Companion.flip
 import org.base.advent.util.Point
 
 /**
@@ -25,12 +26,12 @@ class Day13 : PuzzleFunction<List<String>, Pair<Any, Any>> {
         val visibleDots = foldInstructions(foldInstructions.subList(0, 1))
 
         /**
-         * ####.#..#..##..#..#..##..####.#..#..##.
-         * ...#.#.#..#..#.#..#.#..#.#....#..#.#..#
-         * ..#..##...#..#.#..#.#....###..#..#.#...
-         * .#...#.#..####.#..#.#....#....#..#.#...
-         * #....#.#..#..#.#..#.#..#.#....#..#.#..#
-         * ####.#..#.#..#..##...##..#.....##...##.
+         * #### #  #  ##  #  #  ##  #### #  #  ##
+         *    # # #  #  # #  # #  # #    #  # #  #
+         *   #  ##   #  # #  # #    ###  #  # #   
+         *  #   # #  #### #  # #    #    #  # #   
+         * #    # #  #  # #  # #  # #    #  # #  #
+         * #### #  # #  #  ##   ##  #     ##   ## 
          */
         val activationCode = foldInstructions(foldInstructions, true)
 
@@ -44,26 +45,15 @@ class Day13 : PuzzleFunction<List<String>, Pair<Any, Any>> {
                 }
             }
             return if (show) {
-                display(visible)
+                flip("Day13, 2021", visible)
                 "ZKAUCFUC"
-            } else visible.size
+            } else
+                visible.size
         }
 
         private fun foldLeft(pt: Point, fold: Int): Point = if (pt.x < fold) pt else Point(fold - (pt.x - fold), pt.y)
 
         private fun foldUp(pt: Point, fold: Int): Point = if (pt.y < fold) pt else Point(pt.x, fold - (pt.y - fold))
 
-        private fun display(set: Set<Point>) {
-            print("\n---------------------------------------")
-            val xx = set.maxOf { it.x }
-            val yy = set.maxOf { it.y }
-            for (y in 0..yy) {
-                println()
-                for (x in 0..xx) {
-                    print(if (set.contains(Point(x, y))) "#" else ".")
-                }
-            }
-            println("\n---------------------------------------")
-        }
     }
 }

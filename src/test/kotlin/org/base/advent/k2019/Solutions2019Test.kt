@@ -61,6 +61,11 @@ class Solutions2019Test : PuzzleReader {
     fun day10() {
         testSolutions(Day10(), readLines("2019/input10.txt"), 329, 512L)
     }
+    @Test
+    fun day11() {
+        testSolutions(Day11(),
+            readSingleLine("2019/input11.txt").csvToLong(), 2319, "UERPRFGJ")
+    }
 
     companion object {
         @BeforeAll @JvmStatic

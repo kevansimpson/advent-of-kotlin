@@ -1,6 +1,7 @@
 package org.base.advent.k2016
 
 import org.base.advent.PuzzleFunction
+import org.base.advent.util.Grid.Companion.flip
 import org.base.advent.util.Point
 
 /**
@@ -16,7 +17,7 @@ class Day08 : PuzzleFunction<List<String>, Pair<Int, String>> {
                 }
                 set
             }
-        display(grid)
+        flip("Day08, 2016", grid)
         return grid.size to "UPOJFLBCEZ"
     }
 
@@ -48,17 +49,6 @@ class Day08 : PuzzleFunction<List<String>, Pair<Int, String>> {
         return raw[0].toLong() to raw[2].toLong()
     }
 
-    private fun display(grid: MutableSet<Point>) {
-        println()
-        for (y in 0 until HEIGHT) {
-            println()
-            for (x in 0 until WIDTH) {
-                print(if (grid.contains(Point(x, y))) "#" else ".")
-            }
-        }
-        println("\n---")
-
-    }
     companion object {
         private const val WIDTH = 50
         private const val HEIGHT = 6

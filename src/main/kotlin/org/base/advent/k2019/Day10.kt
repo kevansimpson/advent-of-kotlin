@@ -15,12 +15,13 @@ class Day10 : PuzzleFunction<List<String>, Pair<Int, Long>> {
     override fun apply(input: List<String>): Pair<Int, Long> {
         val scan = scanAsteroids(input)
         val asteroids = scan.associateWith { countVisibleAsteroids(it, scan).size }
-        val twoHundredth = vaporize(asteroids.toMutableMap())
-        return asteroids.values.max() to twoHundredth.x * 100L + twoHundredth.y
+        val max = asteroids.maxBy { it.value }
+        val twoHundredth = vaporize(max.key, asteroids.toMutableMap())
+        println(twoHundredth)
+        return max.value to twoHundredth.x * 100L + twoHundredth.y
     }
 
-    private fun vaporize(asteroids: MutableMap<Point, Int>): Point {
-        val deathStar = asteroids.maxBy { it.value }.key
+    private fun vaporize(deathStar: Point, asteroids: MutableMap<Point, Int>): Point {
         val vaporized = mutableListOf<Point>()
 
         while (vaporized.size < 200) {
