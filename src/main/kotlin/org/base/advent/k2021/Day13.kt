@@ -1,7 +1,7 @@
 package org.base.advent.k2021
 
 import org.base.advent.PuzzleFunction
-import org.base.advent.util.Grid.Companion.flip
+import org.base.advent.util.GridReader.flipSpell
 import org.base.advent.util.Point
 
 /**
@@ -44,11 +44,7 @@ class Day13 : PuzzleFunction<List<String>, Pair<Any, Any>> {
                     else -> set.map { pt -> foldUp(pt, fold) }.toSet()
                 }
             }
-            return if (show) {
-                flip("Day13, 2021", visible)
-                "ZKAUCFUC"
-            } else
-                visible.size
+            return if (show) flipSpell("Day13, 2021", visible) /* ZKAUCFUC */ else visible.size
         }
 
         private fun foldLeft(pt: Point, fold: Int): Point = if (pt.x < fold) pt else Point(fold - (pt.x - fold), pt.y)

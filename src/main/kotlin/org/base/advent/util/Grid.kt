@@ -31,17 +31,15 @@ data class Grid(val visible: Collection<Point>, val buffer: Long = 0L) {
     private val minY: Long by lazy { yAxis.minimum - buffer }
     private val maxY: Long by lazy { yAxis.maximum + buffer }
 
-    fun show(id: String, points: (Point) -> String) {
+    fun show(points: (Point) -> String) {
         for (y in maxY downTo minY)
             row(y, points)
-        footer(id)
     }
 
-    fun flip(id: String, points: (Point) -> String) {
+    fun flip(points: (Point) -> String) {
         for (y in minY..maxY) {
             row(y, points)
         }
-        footer(id)
     }
 
     private fun row(y: Long, points: (Point) -> String) {
@@ -52,20 +50,25 @@ data class Grid(val visible: Collection<Point>, val buffer: Long = 0L) {
             }
 
     }
-    private fun footer(id: String) {
-        println("\n--- $id\n")
+    internal fun footer(id: String) {
+        println("--- $id\n")
     }
-    private fun hash(pt: Point): String = if (visible.contains(pt)) "#" else " "
+    internal fun hash(pt: Point): String = if (visible.contains(pt)) "#" else " "
+
 
     companion object {
         fun show(id: String, visible: Collection<Point>, buffer: Long = 0L) =
             with (Grid(visible, buffer)) {
-                show(id, this::hash)
+                show(this::hash)
+                footer(id)
             }
+
 
         fun flip(id: String, visible: Collection<Point>, buffer: Long = 0L) =
             with (Grid(visible, buffer)) {
-                flip(id, this::hash)
+                flip(this::hash)
+                footer(id)
             }
+
     }
 }

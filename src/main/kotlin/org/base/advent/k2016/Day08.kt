@@ -1,7 +1,7 @@
 package org.base.advent.k2016
 
 import org.base.advent.PuzzleFunction
-import org.base.advent.util.Grid.Companion.flip
+import org.base.advent.util.GridReader.flipSpell
 import org.base.advent.util.Point
 
 /**
@@ -17,8 +17,8 @@ class Day08 : PuzzleFunction<List<String>, Pair<Int, String>> {
                 }
                 set
             }
-        flip("Day08, 2016", grid)
-        return grid.size to "UPOJFLBCEZ"
+
+        return grid.size to flipSpell("Day08, 2016", grid) // UPOJFLBCEZ
     }
 
     private fun rect(line: String, grid: MutableSet<Point>) {

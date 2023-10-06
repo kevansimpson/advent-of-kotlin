@@ -5,7 +5,7 @@ import org.base.advent.k2019.intCode.Channel
 import org.base.advent.k2019.intCode.Channel.Companion.newChannel
 import org.base.advent.k2019.intCode.Program
 import org.base.advent.util.Dir
-import org.base.advent.util.Grid.Companion.show
+import org.base.advent.util.GridReader.showSpell
 import org.base.advent.util.Point
 import java.util.concurrent.CompletableFuture.runAsync
 import java.util.concurrent.Executors
@@ -16,20 +16,20 @@ import java.util.concurrent.TimeUnit
  */
 class Day11 : PuzzleSolver<List<Long>> {
     override fun solve1(input: List<Long>): Any =
-        HullPaintingRobot(input, newChannel(2, 0L),
-            mutableSetOf()).paintHull()
+        with (HullPaintingRobot(input, newChannel(2, 0L), mutableSetOf())) {
+            paintHull()
+        }
 
-    override fun solve2(input: List<Long>): Any {
-        HullPaintingRobot(input, newChannel(2, 1L),
-            mutableSetOf(Point.ORIGIN)).paintHull()
-        return "UERPRFGJ"
-    }
+    override fun solve2(input: List<Long>): Any =
+        with (HullPaintingRobot(input, newChannel(2, 1L), mutableSetOf(Point.ORIGIN))) {
+            paintHull()
+            showSpell("Day11, 2019", whiteNow)
+        }
 }
 
 data class HullPaintingRobot(val codes: List<Long>,
                              val camara: Channel,
                              val whiteNow: MutableSet<Point>) {
-
     fun paintHull(): Int {
         val paints = newChannel(2) // out
         var dir = Dir.North
@@ -59,7 +59,6 @@ data class HullPaintingRobot(val codes: List<Long>,
                     running = false
             }
             f.get()
-            show("Day11, 2019", white)
         }
 
         return white.size
