@@ -10,6 +10,18 @@ object Permutations {
 
     fun nthTriangleNumber(n: Int) = (n * (n + 1)) / 2
 
+    fun <T> combinations(list: List<T>, len: Int): List<List<T>> =
+        if (len == 0)
+            mutableListOf(mutableListOf())
+        else
+            mutableListOf<List<T>>().apply {
+                for (i in 0..(list.size - len)) {
+                    combinations(list.drop(i + 1).take(list.size - 1), len - 1).forEach { perm ->
+                        add(listOf(list[i]) + perm)
+                    }
+                }
+            }
+
     fun permutations(str: String): Stream<String> =
             if (str.isBlank()) Stream.of("")
             else
@@ -27,7 +39,7 @@ object Permutations {
             perm(count, LinkedList(input), ArrayList())
 
     private fun <T> perm(count: Long, input: LinkedList<T>, output: MutableList<T>): List<T> {
-        if (input.isNullOrEmpty()) return output
+        if (input.isEmpty()) return output
         val fact = factorial(input.size - 1)
         output.add(input.removeAt((count / fact).toInt()))
         return perm(count % fact, input, output)

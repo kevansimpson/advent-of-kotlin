@@ -61,10 +61,16 @@ class Solutions2019Test : PuzzleReader {
     fun day10() {
         testSolutions(Day10(), readLines("2019/input10.txt"), 329, 512L)
     }
+
     @Test
     fun day11() {
         testSolutions(Day11(),
             readSingleLine("2019/input11.txt").csvToLong(), 2319, "UERPRFGJ")
+    }
+
+    @Test
+    fun day12() {
+        testSolutions(Day12(), readLines("2019/input12.txt"), 9743L, 288684633706728L)
     }
 
     companion object {
