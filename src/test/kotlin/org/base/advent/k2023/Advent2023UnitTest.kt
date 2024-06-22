@@ -30,4 +30,22 @@ class Advent2023UnitTest : PuzzleReader {
             assertEquals(8, games.filter { it.reveals.all { r -> r.only12R13G14B() } }.sumOf { it.id })
         }
     }
+
+    @Test
+    fun day03() {
+        val input = listOf(
+            "467..114..",
+            "...*......",
+            "..35..633.",
+            "......#...",
+            "617*......",
+            ".....+.58.",
+            "..592.....",
+            "......755.",
+            "...$.*....",
+            ".664.598..")
+        with (Day03()) {
+            assertEquals(4361 to 0, apply(input))
+        }
+    }
 }
