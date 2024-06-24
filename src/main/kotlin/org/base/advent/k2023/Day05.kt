@@ -1,6 +1,5 @@
 package org.base.advent.k2023
 
-import org.apache.commons.lang3.Range
 import org.base.advent.PuzzleFunction
 import org.base.advent.util.Extensions.extractLong
 
