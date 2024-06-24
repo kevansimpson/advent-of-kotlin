@@ -62,4 +62,12 @@ class Advent2023UnitTest : PuzzleReader {
             assertEquals(13 to 30, apply(input))
         }
     }
+
+    @Test
+    fun day05() {
+        val input = readLines("2023/input05_example.txt")
+        with (Day05()) {
+            assertEquals(35L to 0, apply(input))
+        }
+    }
 }
