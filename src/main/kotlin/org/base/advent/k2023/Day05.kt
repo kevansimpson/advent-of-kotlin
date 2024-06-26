@@ -4,7 +4,7 @@ import org.base.advent.PuzzleFunction
 import org.base.advent.util.Extensions.extractLong
 
 /**
- * <a href="https://adventofcode.com/2023/day/05">Day 05</a>
+ * <a href="https://adventofcode.com/2023/day/5">Day 05</a>
  */
 class Day05 : PuzzleFunction<List<String>, Pair<Long, Long>> {
 

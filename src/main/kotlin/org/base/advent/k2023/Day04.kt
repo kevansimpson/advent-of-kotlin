@@ -5,7 +5,7 @@ import java.util.*
 import kotlin.math.pow
 
 /**
- * <a href="https://adventofcode.com/2023/day/04">Day 04</a>
+ * <a href="https://adventofcode.com/2023/day/4">Day 04</a>
  */
 class Day04 : PuzzleFunction<List<String>, Pair<Int, Int>> {
 
