@@ -78,4 +78,12 @@ class Advent2023UnitTest : PuzzleReader {
             assertEquals(288L to 71503L, apply(input))
         }
     }
+
+    @Test
+    fun day07() {
+        val input = listOf("32T3K 765", "T55J5 684", "KK677 28", "KTJJT 220", "QQQJA 483")
+        with (Day07()) {
+            assertEquals(6440L to 5905L, apply(input))
+        }
+    }
 }
