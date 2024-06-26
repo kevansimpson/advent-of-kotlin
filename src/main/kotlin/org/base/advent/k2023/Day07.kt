@@ -2,6 +2,7 @@ package org.base.advent.k2023
 
 import org.apache.commons.lang3.StringUtils
 import org.base.advent.PuzzleFunction
+import java.util.SortedSet
 
 /**
  * <a href="https://adventofcode.com/2023/day/7">Day 07</a>
@@ -17,6 +18,12 @@ class Day07 : PuzzleFunction<List<String>, Pair<Long, Long>> {
         cards.toSortedSet(CamelComparator(WILDS, Day07::wildRank))
             .forEachIndexed { index, card -> wildSum += (index + 1).toLong() * card.bid }
         return sum to wildSum
+    }
+
+    private fun sum(cards: SortedSet<CamelCards>): Long {
+        var sum = 0L;
+        cards.forEachIndexed { index, card -> sum += (index + 1).toLong() * card.bid }
+        return sum;
     }
 
     private fun dealCards(input: List<String>): List<CamelCards> =
@@ -75,10 +82,10 @@ class Day07 : PuzzleFunction<List<String>, Pair<Long, Long>> {
                 with (cards.counts) {
                     val newHand = toMutableMap()
                     val jokers = newHand.remove("J")
-                    val max = newHand.maxByOrNull { it.value }
-                    if (max == null)
+                    if (newHand.isEmpty())
                         cards.rank
                     else {
+                        val max = newHand.maxByOrNull { it.value }!!
                         newHand[max.key] = max.value + jokers!!
                         format(newHand.values)
                     }

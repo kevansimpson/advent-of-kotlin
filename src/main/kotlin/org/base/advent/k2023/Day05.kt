@@ -68,8 +68,7 @@ class Day05 : PuzzleFunction<List<String>, Pair<Long, Long>> {
             }
             else {
                 val nums = line.extractLong()
-                val len = nums[2]
-                list.add(Mapping(nums[1]until (nums[1] + len), nums[0] - nums[1]))
+                list.add(Mapping(nums[1]until (nums[1] + nums[2]), nums[0] - nums[1]))
             }
 
         }
