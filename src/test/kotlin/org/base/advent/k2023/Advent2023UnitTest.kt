@@ -67,7 +67,7 @@ class Advent2023UnitTest : PuzzleReader {
     fun day05() {
         val input = readLines("2023/input05_example.txt")
         with (Day05()) {
-            assertEquals(35L to 0, apply(input))
+            assertEquals(35L to 46L, apply(input))
         }
     }
 }
