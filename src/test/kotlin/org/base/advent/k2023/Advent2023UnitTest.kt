@@ -86,4 +86,33 @@ class Advent2023UnitTest : PuzzleReader {
             assertEquals(6440L to 5905L, apply(input))
         }
     }
+
+    @Test
+    fun day08() {
+        with (Day08()) {
+            val input1 = toNodeMap(listOf("RL", "",
+                "AAA = (BBB, CCC)",
+                "BBB = (DDD, EEE)",
+                "CCC = (ZZZ, GGG)",
+                "DDD = (DDD, DDD)",
+                "EEE = (EEE, EEE)",
+                "GGG = (GGG, GGG)",
+                "ZZZ = (ZZZ, ZZZ))"))
+            val input2 = toNodeMap(listOf("LLR", "", "AAA = (BBB, BBB)", "BBB = (AAA, ZZZ)", "ZZZ = (ZZZ, ZZZ)"))
+            val input3 = toNodeMap(listOf("LR", "",
+                "11A = (11B, XXX)",
+                "11B = (XXX, 11Z)",
+                "11Z = (11B, XXX)",
+                "22A = (22B, XXX)",
+                "22B = (22C, 22C)",
+                "22C = (22Z, 22Z)",
+                "22Z = (22B, 22B)",
+                "XXX = (XXX, XXX)"))
+            assertEquals(2, input1.findPath("AAA"))
+            assertEquals(6, input2.findPath("AAA"))
+            assertEquals(2, input3.findPath("11A"))
+            assertEquals(3, input3.findPath("22A"))
+            assertEquals(6, input3.findAllPaths())
+        }
+    }
 }
