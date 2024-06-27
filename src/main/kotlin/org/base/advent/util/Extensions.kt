@@ -39,8 +39,10 @@ object Extensions {
     fun String.sort() = this.toCharArray().sorted().joinToString("")
 
     private val DIGITS = "([-\\d])".toRegex()
+    private val LETTERS = "(\\w+)".toRegex()
     private val NUMS = "([-\\d]+)".toRegex()
     fun String.extractDigits(): List<Int> = DIGITS.findAll(this).map { it.value.toInt() }.toList()
     fun String.extractInt(): List<Int> = NUMS.findAll(this).map { it.value.toInt() }.toList()
     fun String.extractLong(): List<Long> = NUMS.findAll(this).map { it.value.toLong() }.toList()
+    fun String.extractLetters(): List<String> = LETTERS.findAll(this).map { it.value }.toList()
 }
