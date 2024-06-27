@@ -123,4 +123,24 @@ class Advent2023UnitTest : PuzzleReader {
             assertEquals(114L to 2L, apply(input))
         }
     }
+
+    @Test
+    fun day10() {
+        val input1 = listOf(
+            "-L|F7",
+            "7S-7|", // F-7     012
+            "L|7||", // | |     1 3
+            "-L-J|", // L-J     234
+            "L|-JF")
+        val input2 = listOf(
+            "7-F7-", //   F7       45
+            ".FJ|7", //  FJ|      236
+            "SJLL7", // FJ L7    01 78
+            "|F--J", // |F--J    14567
+            "LJ.LJ") // LJ       23
+        with (Day10()) {
+            assertEquals(4 to 0, apply(input1))
+            assertEquals(8 to 0, apply(input2))
+        }
+    }
 }
