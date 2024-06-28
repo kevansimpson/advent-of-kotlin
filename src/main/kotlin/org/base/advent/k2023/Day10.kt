@@ -5,6 +5,8 @@ import org.base.advent.util.Node
 import org.base.advent.util.Point
 import org.base.advent.util.Square
 import kotlin.RuntimeException
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * <a href="https://adventofcode.com/2023/day/10">Day 10</a>
@@ -15,7 +17,52 @@ class Day10 : PuzzleFunction<List<String>, Pair<Long, Int>> {
         val grid = Square(input.map { it.toCharArray() }.toTypedArray())
         val animal = grid.first('S')
         val loop = buildLoop(animal, grid)
-        return loop.depth / 2 to 0
+        return loop.depth / 2 to insidePolygon(loop, grid)
+    }
+
+    private fun insidePolygon(loop: Node<Point>, grid: Square): Int {
+        var area = 0
+        var minX = grid.size + 1
+        var maxX = -1
+        var minY = minX
+        var maxY = -1
+        var node: Node<Point>? = loop
+        val pipes = mutableListOf<Point>()
+        while (node != null) {
+            with (node.data) {
+                pipes.add(this)
+                minX = min(minX, ix)
+                maxX = max(maxX, ix)
+                minY = min(minY, iy)
+                maxY = max(maxY, iy)
+            }
+            node = node.parent
+        }
+        pipes.removeAt(0)
+
+        for (row in minY..maxY) {
+            for (col in minX..maxX)
+                if (insidePolygon(row, col, pipes))
+                    area++
+        }
+        return area
+    }
+
+    // h/t https://www.naukri.com/code360/library/check-if-a-point-lies-in-the-interior-of-a-polygon
+    private fun insidePolygon(x: Int, y: Int, loop: List<Point>): Boolean {
+        if (loop.contains(Point(x, y))) return false
+
+        val vertices = loop.size
+        var p1 = loop[0]
+        var inside = false
+        for (i in 1..vertices) {
+            val p2 = loop[i % vertices]
+            if (y > min(p1.iy, p2.iy) && y <= max(p1.iy, p2.iy) && x <= max(p1.ix, p2.ix))
+                if (p1.ix == p2.ix || x <= ((y - p1.iy) * (p2.ix - p1.ix) / (p2.iy - p1.iy) + p1.ix))
+                    inside = !inside
+            p1 = p2
+        }
+        return inside
     }
 
     private fun buildLoop(animal: Point, grid: Square): Node<Point> {
