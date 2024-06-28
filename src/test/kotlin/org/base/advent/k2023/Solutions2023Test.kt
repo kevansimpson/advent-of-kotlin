@@ -61,7 +61,7 @@ class Solutions2023Test : PuzzleReader {
 
     @Test
     fun day10() {
-        testSolutions(Day10(), readLines("2023/input10.txt"), 7145, 0)
+        testSolutions(Day10(), readLines("2023/input10.txt"), 7145L, 0)
     }
 
     companion object {

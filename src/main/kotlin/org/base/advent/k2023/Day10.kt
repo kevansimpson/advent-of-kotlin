@@ -1,6 +1,7 @@
 package org.base.advent.k2023
 
 import org.base.advent.PuzzleFunction
+import org.base.advent.util.Node
 import org.base.advent.util.Point
 import org.base.advent.util.Square
 import kotlin.RuntimeException
@@ -8,49 +9,33 @@ import kotlin.RuntimeException
 /**
  * <a href="https://adventofcode.com/2023/day/10">Day 10</a>
  */
-class Day10 : PuzzleFunction<List<String>, Pair<Int, Int>> {
+class Day10 : PuzzleFunction<List<String>, Pair<Long, Int>> {
 
-    override fun apply(input: List<String>): Pair<Int, Int> {
-        val grid = Square(input.map { it.toCharArray() }.toTypedArray()) // size=140x140
-        val animal = grid.first('S') // 50,39
-        println(animal)
-//        grid.display()
+    override fun apply(input: List<String>): Pair<Long, Int> {
+        val grid = Square(input.map { it.toCharArray() }.toTypedArray())
+        val animal = grid.first('S')
         val loop = buildLoop(animal, grid)
-        println("loop => ${loop.size}")
-        return loop.size / 2 to 0
+        return loop.depth / 2 to 0
     }
 
-    private fun buildLoop(animal: Point, grid: Square): List<Point> {
-        var list = mutableListOf(listOf(animal))
+    private fun buildLoop(animal: Point, grid: Square): Node<Point> {
+        var list = mutableListOf(Node(animal))
         while (list.isNotEmpty()) {
-            val next = mutableListOf<List<Point>>()
-            for (path in list) {
-                val last = path.last()
+            val next = mutableListOf<Node<Point>>()
+            for (node in list) {
+                val last = node.data
                 if ("|LJS".contains(grid[last]))
-                    north(last, grid)?.let { next.add(path + it) }
+                    north(last, grid)?.let { next.add(node.addChild(it)) }
                 if ("|7FS".contains(grid[last]))
-                    south(last, grid)?.let { next.add(path + it) }
+                    south(last, grid)?.let { next.add(node.addChild(it)) }
                 if ("-LFS".contains(grid[last]))
-                    east(last, grid)?.let { next.add(path + it) }
+                    east(last, grid)?.let { next.add(node.addChild(it)) }
                 if ("-7JS".contains(grid[last]))
-                    west(last, grid)?.let { next.add(path + it) }
+                    west(last, grid)?.let { next.add(node.addChild(it)) }
             }
 
-//            println("----- next")
-//            next.forEach { println(it) }
-            next.firstOrNull { it.size > 3 && it.last() == animal }?.let { return it } // loop!
-            list = next.filter {
-                val tail = it.last()
-                var allowed = true
-                for (j in 0..it.size - 2)
-                    if (it[j] == tail) {
-                        allowed = false
-                        break
-                    }
-                allowed
-            }.toMutableList()
-//            println("----- list")
-//            list.forEach { println(it) }
+            next.firstOrNull { it.depth > 3 && it.data == animal }?.let { return it } // loop! NOT
+            list = next.filter { it.parent?.parent?.data != it.data }.toMutableList()
         }
         throw RuntimeException("no loop")
     }

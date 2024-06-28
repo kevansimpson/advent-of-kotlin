@@ -139,8 +139,8 @@ class Advent2023UnitTest : PuzzleReader {
             "|F--J", // |F--J    14567
             "LJ.LJ") // LJ       23
         with (Day10()) {
-            assertEquals(4 to 0, apply(input1))
-            assertEquals(8 to 0, apply(input2))
+            assertEquals(4L to 0, apply(input1))
+            assertEquals(8L to 0, apply(input2))
         }
     }
 }

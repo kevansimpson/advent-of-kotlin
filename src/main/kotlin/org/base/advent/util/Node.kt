@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicLong
 
 
 data class Node<T>(val data: T,
-                   private val parent: Node<T>? = null,
+                   val parent: Node<T>? = null,
                    val depth: Long = 0L) {
 
     private val children = mutableListOf<Node<T>>()
@@ -14,7 +14,11 @@ data class Node<T>(val data: T,
 
     fun addChild(newData: T): Node<T> = Node(newData, this, depth + 1L).also { children.add(it) }
 
-    fun contains(target: T): Boolean = data == target || parent?.contains(target) ?: false
+    fun contains(target: T): Boolean = data == target || parentContains(target)
+
+    fun parentContains(target: T) = parent?.contains(target) ?: false
+
+    fun path(delim: String? = " "): String = "${(parent?.path() ?: "")}${delim ?: ""} $data"
 
     fun detach(reason: String) {
         while (children.isNotEmpty())
