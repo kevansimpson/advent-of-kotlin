@@ -4,6 +4,8 @@ import org.base.advent.PuzzleFunction
 import org.base.advent.util.Node
 import org.base.advent.util.Point
 import org.base.advent.util.Square
+import java.util.concurrent.Executors
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.RuntimeException
 import kotlin.math.max
 import kotlin.math.min
@@ -21,7 +23,6 @@ class Day10 : PuzzleFunction<List<String>, Pair<Long, Int>> {
     }
 
     private fun insidePolygon(loop: Node<Point>, grid: Square): Int {
-        var area = 0
         var minX = grid.size + 1
         var maxX = -1
         var minY = minX
@@ -40,17 +41,20 @@ class Day10 : PuzzleFunction<List<String>, Pair<Long, Int>> {
         }
         pipes.removeAt(0)
 
-        for (row in minY..maxY) {
-            for (col in minX..maxX)
-                if (insidePolygon(row, col, pipes))
-                    area++
+        val area = AtomicInteger(0)
+        val pool = Executors.newFixedThreadPool(4)
+        pool.use {
+            for (row in minY..maxY) {
+                for (col in minX..maxX)
+                    it.submit { insidePolygon(row, col, pipes, area) }
+            }
         }
-        return area
+        return area.get()
     }
 
     // h/t https://www.naukri.com/code360/library/check-if-a-point-lies-in-the-interior-of-a-polygon
-    private fun insidePolygon(x: Int, y: Int, loop: List<Point>): Boolean {
-        if (loop.contains(Point(x, y))) return false
+    private fun insidePolygon(x: Int, y: Int, loop: List<Point>, area: AtomicInteger) {
+        if (loop.contains(Point(x, y))) return
 
         val vertices = loop.size
         var p1 = loop[0]
@@ -62,7 +66,8 @@ class Day10 : PuzzleFunction<List<String>, Pair<Long, Int>> {
                     inside = !inside
             p1 = p2
         }
-        return inside
+        if (inside)
+            area.incrementAndGet()
     }
 
     private fun buildLoop(animal: Point, grid: Square): Node<Point> {
