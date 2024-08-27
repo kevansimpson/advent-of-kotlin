@@ -161,4 +161,18 @@ class Advent2023UnitTest : PuzzleReader {
             assertEquals(374L to 82000210L, apply(input1))
         }
     }
+
+    @Test
+    fun day12() {
+        val input1 = listOf(
+            "???.### 1,1,3",
+            ".??..??...?##. 1,1,3",
+            "?#?#?#?#?#?#?#? 1,3,1,6",
+            "????.#...#... 4,1,1",
+            "????.######..#####. 1,6,5",
+            "?###???????? 3,2,1")
+        with (Day12()) {
+            assertEquals(21L to 525152L, apply(input1))
+        }
+    }
 }
