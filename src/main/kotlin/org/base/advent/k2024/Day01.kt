@@ -13,23 +13,12 @@ class Day01 : PuzzleFunction<List<String>, Pair<Int, Int>> {
             .filter { s -> s.isNotBlank() } }.map { arr -> arr[0].toInt() to arr[1].toInt() }
         val left = list.map { it.first }.sorted()
         val right = list.map { it.second }.sorted()
-
-        return compareLists(left, right) to similarityScore(left, right)
-    }
-
-    private fun compareLists(left: List<Int>, right: List<Int>): Int {
-        var sum = 0
+        val sums = arrayOf(0, 0)
         for (i in left.indices) {
-            sum += abs(left[i] - right[i])
+            sums[0] += abs(left[i] - right[i])
+            sums[1] += left[i] * right.count { it == left[i] }
         }
-        return sum
-    }
 
-    private fun similarityScore(left: List<Int>, right: List<Int>): Int {
-        var sum = 0
-        for (i in left.indices) {
-            sum += left[i] * right.count { it == left[i] }
-        }
-        return sum
+        return sums[0] to sums[1]
     }
 }
