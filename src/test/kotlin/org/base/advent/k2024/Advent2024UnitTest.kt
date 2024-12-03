@@ -21,4 +21,14 @@ class Advent2024UnitTest : PuzzleReader {
             assertEquals(2 to 4, apply(input))
         }
     }
+
+    @Test
+    fun day03() {
+        val input = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"
+        val enabled = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+        with (Day03()) {
+            assertEquals(161 to 161, apply(input))
+            assertEquals(161 to 48, apply(enabled))
+        }
+    }
 }
