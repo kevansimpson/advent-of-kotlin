@@ -7,11 +7,18 @@ import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
+/**
+ */
 class Solutions2024Test : PuzzleReader {
 
     @Test
     fun day01() {
         testSolutions(Day01(), readLines("2024/input01.txt"), 2057374, 23177084)
+    }
+
+    @Test
+    fun day02() {
+        testSolutions(Day02(), readLines("2024/input02.txt"), 534, 577)
     }
 
     companion object {
