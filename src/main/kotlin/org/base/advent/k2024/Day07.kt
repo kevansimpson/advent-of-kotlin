@@ -17,9 +17,10 @@ class Day07 : PuzzleFunction<List<String>, Pair<Long, Long>> {
             val values = equation.extractLong().toLongArray()
             if (canBeCalibrated(values, addMultiply))
                 calibrations[0] += values[0]
-            if (canBeCalibrated(values, withConcatenation))
+            else if (canBeCalibrated(values, withConcatenation))
                 calibrations[1] += values[0]
         }
+        calibrations[1] += calibrations[0]
         return calibrations[0] to calibrations[1]
     }
 
