@@ -6,10 +6,13 @@ import org.base.advent.PuzzleTester.testSolutions
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import java.util.concurrent.Executors
 
 /**
  */
 class Solutions2024Test : PuzzleReader {
+
+    private val pool = Executors.newFixedThreadPool(5)
 
     @Test
     fun day01() {
@@ -54,6 +57,11 @@ class Solutions2024Test : PuzzleReader {
     @Test
     fun day09() {
         testSolutions(Day09(), readSingleLine("2024/input09.txt"), 6334655979668L, 6349492251099L)
+    }
+
+    @Test
+    fun day10() {
+        testSolutions(Day10(pool), readLines("2024/input10.txt"), 733, 1514)
     }
 
     companion object {

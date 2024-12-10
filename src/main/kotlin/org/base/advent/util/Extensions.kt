@@ -1,6 +1,7 @@
 package org.base.advent.util
 
 import java.security.MessageDigest
+import java.util.concurrent.CompletableFuture
 
 object Extensions {
 
@@ -45,4 +46,12 @@ object Extensions {
     fun String.extractInt(): List<Int> = NUMS.findAll(this).map { it.value.toInt() }.toList()
     fun String.extractLong(): List<Long> = NUMS.findAll(this).map { it.value.toLong() }.toList()
     fun String.extractLetters(): List<String> = LETTERS.findAll(this).map { it.value }.toList()
+
+    fun <T> CompletableFuture<T>.safeGet(): T =
+        try {
+            this.get()
+        }
+        catch (ex: Exception) {
+            throw RuntimeException(ex)
+        }
 }
