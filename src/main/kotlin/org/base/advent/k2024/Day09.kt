@@ -1,38 +1,50 @@
 package org.base.advent.k2024
 
-import org.base.advent.PuzzleFunction
+import org.base.advent.PuzzleSolver
 
 /**
  * <a href="https://adventofcode.com/2024/day/00">Day 00</a>
  */
-class Day09 : PuzzleFunction<String, Pair<Long, Long>> {
-
-    override fun apply(input: String): Pair<Long, Long> {
-        val disk1 = mutableListOf<Int>()
-        val disk2 = mutableListOf<Block>()
+class Day09 : PuzzleSolver<String> {
+    override fun solve1(input: String): Long {
+        val disk = mutableListOf<Int>()
         var fileId = 0
         var freeSpace = false
         for (ch in input.toCharArray()) {
             val num = ch.digitToInt()
             for (i in 0 until num) {
                 if (freeSpace)
-                    disk1.add(-1)
+                    disk.add(-1)
                 else
-                    disk1.add(fileId)
+                    disk.add(fileId)
             }
 
-            if (freeSpace) {
-                disk2.add(Block(-1, num))
+            if (freeSpace)
                 fileId++
-            }
-            else
-                disk2.add(Block(fileId, num))
             freeSpace = !freeSpace
         }
 
-        defrag(disk1)
-        defragBlocks(disk2)
-        return checksum(disk1) to checksumBlocks(disk2)
+        defrag(disk)
+        return checksum(disk)
+    }
+
+    override fun solve2(input: String): Long {
+        val disk = mutableListOf<Block>()
+        var fileId = 0
+        var freeSpace = false
+        for (ch in input.toCharArray()) {
+            val num = ch.digitToInt()
+            if (freeSpace) {
+                disk.add(Block(-1, num))
+                fileId++
+            }
+            else
+                disk.add(Block(fileId, num))
+            freeSpace = !freeSpace
+        }
+
+        defragBlocks(disk)
+        return checksumBlocks(disk)
     }
 
     data class Block(val id: Int, val length: Int)
