@@ -74,6 +74,11 @@ class Solutions2024Test : PuzzleReader {
         testSolutions(Day12(), readLines("2024/input12.txt"), 1304764, 811148)
     }
 
+    @Test
+    fun day13() {
+        testSolutions(Day13(pool), readLines("2024/input13.txt"), 33209L, 83102355665474L)
+    }
+
     companion object {
         @BeforeAll @JvmStatic
         fun header() {
