@@ -1,7 +1,9 @@
 package org.base.advent.k2024
 
 import org.base.advent.PuzzleReader
+import org.base.advent.PuzzleTester
 import org.base.advent.PuzzleTester.banner
+import org.base.advent.PuzzleTester.testParallelSolutions
 import org.base.advent.PuzzleTester.testSolutions
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -83,6 +85,12 @@ class Solutions2024Test : PuzzleReader {
     fun day14() {
         testSolutions(Day14(101, 103),
             readLines("2024/input14.txt"), 208437768, 7492)
+    }
+
+    @Test
+    fun day15() {
+        testParallelSolutions(Day15(pool),
+            readLines("2024/input15.txt"), 1457740, 1467145)
     }
 
     companion object {
