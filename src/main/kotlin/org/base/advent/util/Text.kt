@@ -3,13 +3,15 @@ package org.base.advent.util
 import org.apache.commons.lang3.StringUtils
 import org.base.advent.util.Extensions.md5ToHex
 import java.util.*
+import java.util.stream.IntStream
+import java.util.stream.Stream
 
 object Text {
-    private const val alphabet = "abcdefghijklmnopqrstuvwxyz"
+    private const val ALPHABET = "abcdefghijklmnopqrstuvwxyz"
 
     val hex2bits by lazy {
         (0..15).associate {
-            (if (it >= 10) alphabet[it - 10].toString().capitalize() else it.toString()) to
+            (if (it >= 10) ALPHABET[it - 10].toString().capitalize() else it.toString()) to
                     StringUtils.leftPad(it.toByte().toString(2), 4, "0")
         }
     }
@@ -27,8 +29,8 @@ object Text {
 
     fun shiftText(text: String, shift: Int = 1): String =
         text.toCharArray().map {
-            if (alphabet.contains(it))
-                alphabet[(alphabet.indexOf(it) + shift) % 26]
+            if (ALPHABET.contains(it))
+                ALPHABET[(ALPHABET.indexOf(it) + shift) % 26]
             else
                 it
         }.joinToString("").replace("-", " ")
@@ -46,5 +48,12 @@ object Text {
 
     private fun String.capitalize() = replaceFirstChar {
         if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+    }
+
+    fun splitByBlankLine(lines: List<String>): List<List<String>> {
+        val indexes = Stream.of(IntStream.of(-1),
+            IntStream.range(0, lines.size).filter { lines[it].isBlank() },
+            IntStream.of(lines.size)).flatMapToInt { it }.toArray()
+        return IntStream.range(0, indexes.size - 1).mapToObj { lines.subList(indexes[it] + 1, indexes[it + 1]) }.toList()
     }
 }
