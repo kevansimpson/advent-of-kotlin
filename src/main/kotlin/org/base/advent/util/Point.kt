@@ -75,8 +75,13 @@ enum class Dir {
     North, East, South, West;
 
     fun turn(dir: String): Dir = when (dir) {
-        ">", "R", "E" -> values()[(this.ordinal + 1) % 4]
-        "<", "L", "W" -> values()[(this.ordinal + 3) % 4]
+        ">", "R", "E" -> array[(this.ordinal + 1) % 4]
+        "<", "L", "W" -> array[(this.ordinal + 3) % 4]
         else -> this
+    }
+
+    companion object {
+        private val array = entries.toTypedArray()
+        val ARROWS = mapOf(North to '^', East to '>', South to 'v', West to '<')
     }
 }
