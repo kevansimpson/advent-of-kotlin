@@ -47,7 +47,8 @@ class Solutions2024Test : PuzzleReader {
 
     @Test
     fun day07() {
-        testSolutions(Day07(), readLines("2024/input07.txt"), 42283209483350L, 1026766857276279L)
+        testSolutions(Day07(), readLines("2024/input07.txt"),
+            42283209483350L, 1026766857276279L)
     }
 
     @Test
@@ -57,7 +58,8 @@ class Solutions2024Test : PuzzleReader {
 
     @Test
     fun day09() {
-        testSolutions(Day09(), readSingleLine("2024/input09.txt"), 6334655979668L, 6349492251099L)
+        testSolutions(Day09(), readSingleLine("2024/input09.txt"),
+            6334655979668L, 6349492251099L)
     }
 
     @Test
@@ -82,26 +84,29 @@ class Solutions2024Test : PuzzleReader {
 
     @Test
     fun day14() {
-        testSolutions(Day14(101, 103),
-            readLines("2024/input14.txt"), 208437768, 7492)
+        testSolutions(Day14(101, 103), readLines("2024/input14.txt"),
+            208437768, 7492)
     }
 
     @Test
     fun day15() {
-        testParallelSolutions(Day15(pool),
-            readLines("2024/input15.txt"), 1457740, 1467145)
+        testParallelSolutions(Day15(pool), readLines("2024/input15.txt"), 1457740, 1467145)
     }
 
     @Test
     fun day16() {
-        testSolutions(Day16(),
-            readLines("2024/input16.txt"), 85432, 465)
+        testSolutions(Day16(), readLines("2024/input16.txt"), 85432, 465)
     }
 
     @Test
     fun day17() {
         testParallelSolutions(Day17(pool),
             readLines("2024/input17.txt"), "3,5,0,1,5,1,5,1,0", 107413700225434L)
+    }
+
+    @Test
+    fun day18() {
+        testSolutions(Day18(71, 71), readLines("2024/input18.txt"), 454L, "8,51")
     }
 
     companion object {
