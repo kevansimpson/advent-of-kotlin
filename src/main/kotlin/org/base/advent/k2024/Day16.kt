@@ -6,7 +6,7 @@ import org.base.advent.util.Dir
 import org.base.advent.util.Dir.Companion.ARROWS
 import org.base.advent.util.Node
 import org.base.advent.util.Point
-import java.util.PriorityQueue
+import java.util.*
 
 /**
  * <a href="https://adventofcode.com/2024/day/16">Day 16</a>
@@ -20,11 +20,7 @@ class Day16 : PuzzleFunction<List<String>, Pair<Int, Int>>, TimeSaver {
         val begin = DirPoint(Dir.East, maze.start)
         visited[begin] = 0
 
-        val paths = PriorityQueue<ScoredPath> { a, b ->
-            val da = maze.end.manhattanDistance(a.node.data.pos)
-            val db = maze.end.manhattanDistance(b.node.data.pos)
-            (db - da).toInt()
-        }
+        val paths = LinkedList<ScoredPath>()
         paths.add(ScoredPath(Node.createRootNode(begin), 0))
         var minScore = Int.MAX_VALUE
         val solutions = mutableListOf<Node<DirPoint>>()
