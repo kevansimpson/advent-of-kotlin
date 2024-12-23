@@ -1,7 +1,6 @@
 package org.base.advent.k2024
 
 import org.base.advent.PuzzleReader
-import org.base.advent.PuzzleTester
 import org.base.advent.PuzzleTester.banner
 import org.base.advent.PuzzleTester.testParallelSolutions
 import org.base.advent.PuzzleTester.testSolutions
@@ -97,6 +96,12 @@ class Solutions2024Test : PuzzleReader {
     fun day16() {
         testSolutions(Day16(),
             readLines("2024/input16.txt"), 85432, 465)
+    }
+
+    @Test
+    fun day17() {
+        testParallelSolutions(Day17(pool),
+            readLines("2024/input17.txt"), "3,5,0,1,5,1,5,1,0", 107413700225434L)
     }
 
     companion object {
