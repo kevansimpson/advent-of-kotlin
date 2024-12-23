@@ -38,7 +38,7 @@ class Day16 : PuzzleFunction<List<String>, Pair<Int, Int>>, TimeSaver {
             if (!visited.containsKey(data) || score <= visited.getOrDefault(data, Int.MAX_VALUE)) {
                 visited[data] = score
 
-                if (data.pos.equals(maze.end)) {
+                if (data.pos == maze.end) {
                     if (score < minScore) {
                         minScore = score
                         solutions.clear()
