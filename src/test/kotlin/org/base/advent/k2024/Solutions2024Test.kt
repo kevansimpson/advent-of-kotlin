@@ -136,6 +136,12 @@ class Solutions2024Test : PuzzleReader {
             1352, "dm,do,fr,gf,gh,gy,iq,jb,kt,on,rg,xf,ze")
     }
 
+    @Test
+    fun day24() {
+        testSolutions(Day24(), readLines("2024/input24.txt"),
+            57588078076750L, "kcd,pfn,shj,tpk,wkb,z07,z23,z27")
+    }
+
     companion object {
         @BeforeAll @JvmStatic
         fun header() {
