@@ -2,12 +2,16 @@ package org.base.advent.k2016
 
 import org.base.advent.PuzzleReader
 import org.base.advent.PuzzleTester.banner
+import org.base.advent.PuzzleTester.testParallelSolutions
 import org.base.advent.PuzzleTester.testSolutions
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import java.util.concurrent.Executors
 
 class Solutions2016Test : PuzzleReader {
+
+    private val pool = Executors.newFixedThreadPool(5)
 
     @Test
     fun day01() {
@@ -58,6 +62,12 @@ class Solutions2016Test : PuzzleReader {
     fun day10() {
         testSolutions(Day10(), readLines("2016/input10.txt"), 116, 23903)
     }
+
+    @Test
+    fun day11() {
+        testParallelSolutions(Day11(pool), readLines("2016/input11.txt"), 37L, 61L)
+    }
+
     companion object {
         @BeforeAll @JvmStatic
         fun header() {
