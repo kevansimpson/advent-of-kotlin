@@ -89,6 +89,11 @@ class Solutions2016Test : PuzzleReader {
             "01110011101111011", "11001111011000111")
     }
 
+    @Test
+    fun day17() {
+        testSolutions(Day17(), "awrkjxxr", "RDURRDDLRD", 526)
+    }
+
     companion object {
         @BeforeAll @JvmStatic
         fun header() {
