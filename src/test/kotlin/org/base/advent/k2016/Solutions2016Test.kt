@@ -99,6 +99,11 @@ class Solutions2016Test : PuzzleReader {
         testSolutions(Day18(), readSingleLine("2016/input18.txt"), 2005, 20008491)
     }
 
+    @Test
+    fun day19() {
+        testParallelSolutions(Day19(pool), 3014603, 1834903, 1420280)
+    }
+
     companion object {
         @BeforeAll @JvmStatic
         fun header() {
