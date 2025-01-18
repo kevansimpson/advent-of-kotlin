@@ -27,6 +27,28 @@ object Text {
         return Pair(input, -1)
     }
 
+    fun rotateLeft(text: String, rotations: Int): String {
+        var str = text
+        if (rotations >= text.length) {
+            for (i in 0 until rotations)
+                str = rotateLeft(str, 1)
+            return str
+        }
+        else
+            return "${str.substring(rotations)}${str.substring(0, rotations)}"
+    }
+
+    fun rotateRight(text: String, rotations: Int): String {
+        var str = text
+        if (rotations >= text.length) {
+            for (i in 0 until rotations)
+                str = rotateRight(str, 1)
+            return str
+        }
+        else
+            return rotateLeft(str, str.length - rotations)
+    }
+
     fun shiftText(text: String, shift: Int = 1): String =
         text.toCharArray().map {
             if (ALPHABET.contains(it))
