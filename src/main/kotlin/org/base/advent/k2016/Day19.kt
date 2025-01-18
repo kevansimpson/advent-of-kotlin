@@ -4,7 +4,7 @@ import org.base.advent.ParallelSolution
 import java.util.concurrent.ExecutorService
 
 /**
- * <a href="https://adventofcode.com/2016/day/00">Day 00</a>
+ * <a href="https://adventofcode.com/2016/day/19">Day 19</a>
  */
 class Day19(pool: ExecutorService) : ParallelSolution<Int>(pool) {
 
