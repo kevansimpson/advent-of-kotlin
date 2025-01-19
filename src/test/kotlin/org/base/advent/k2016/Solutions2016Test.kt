@@ -111,7 +111,13 @@ class Solutions2016Test : PuzzleReader {
 
     @Test
     fun day21() {
-        testParallelSolutions(Day21(pool), readLines("2016/input21.txt"), "dgfaehcb", "fdhgacbe")
+        testParallelSolutions(Day21(pool), readLines("2016/input21.txt"),
+            "dgfaehcb", "fdhgacbe")
+    }
+
+    @Test
+    fun day22() {
+        testParallelSolutions(Day22(pool), readLines("2016/input22.txt"), 1038, 252)
     }
 
     companion object {
