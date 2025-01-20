@@ -1,6 +1,14 @@
 package org.base.advent.util
 
+import java.math.BigInteger
+
 object MathUtil {
+    fun factorial(n: Long): BigInteger =
+        if (n == 1L)
+            BigInteger.ONE
+        else
+            BigInteger.valueOf(n).multiply(factorial(n - 1))
+
     fun lowestCommonMultiple(elements: LongArray): Long {
         var lcm = 1L
         var divisor = 2L
